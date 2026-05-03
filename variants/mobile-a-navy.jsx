@@ -8,6 +8,16 @@ const MobileANavy = () => {
   const [selectedItems, setSelectedItems] = React.useState([]);
   const [generatedMessage, setGeneratedMessage] = React.useState('');
   const [copied, setCopied] = React.useState(false);
+  const [copiedField, setCopiedField] = React.useState(null);
+
+  const copyToClipboard = (key, text) => {
+    try {
+      navigator.clipboard.writeText(text).then(() => {
+        setCopiedField(key);
+        setTimeout(() => setCopiedField(null), 2000);
+      });
+    } catch (e) {}
+  };
 
   const toggleItem = (item) => {
     setSelectedItems(prev =>
@@ -15,18 +25,15 @@ const MobileANavy = () => {
     );
   };
 
-  const handleQuoteSubmit = (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    const data = Object.fromEntries(fd);
+  const handleQuoteSubmit = (formData) => {
     const lines = [
       '[뽀송코킹 견적 문의]',
-      data.address ? `현장 주소: ${data.address}` : '',
-      data.detail ? `문제/내용:\n${data.detail}` : '',
-      data.buildingType ? `건물 유형: ${data.buildingType}` : '',
-      selectedItems.length > 0 ? `의뢰 항목: ${selectedItems.join(', ')}` : '',
-      data.visitDate ? `희망 방문일: ${data.visitDate}` : '',
-      data.phone ? `연락처: ${data.phone}` : '',
+      formData.address ? `현장 주소: ${formData.address}` : '',
+      formData.detail ? `문제/내용:\n${formData.detail}` : '',
+      formData.buildingType ? `건물 유형: ${formData.buildingType}` : '',
+      formData.items && formData.items.length > 0 ? `의뢰 항목: ${formData.items.join(', ')}` : '',
+      formData.visitDate ? `희망 방문일: ${formData.visitDate}` : '',
+      formData.phone ? `연락처: ${formData.phone}` : '',
     ].filter(Boolean);
     setGeneratedMessage(lines.join('\n'));
     setSubmitted(true);
@@ -262,116 +269,6 @@ const MobileANavy = () => {
     </div>
   );
 
-  const QuotePage = () => {
-    if (submitted) {
-      return (
-        <div style={{ background: C.paper, minHeight: '100%', padding: '32px 22px' }}>
-          <div style={{ textAlign: 'center', marginBottom: 28 }}>
-            <div style={{ width: 64, height: 64, margin: '0 auto 18px', borderRadius: '50%', background: C.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, fontWeight: 800, color: C.navyDeep }}>✓</div>
-            <h2 style={{ fontSize: 24, fontWeight: 800, color: C.navyDeep, margin: '0 0 10px', letterSpacing: '-0.03em' }}>견적 내용이 정리되었습니다</h2>
-            <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.6, margin: 0 }}>
-              아래 두 가지 방법 중 편하신 방법으로<br/>전송해주세요. 사진은 채팅창에 직접 첨부해주세요.
-            </p>
-          </div>
-          <div style={{ background: '#fff', border: `1px solid ${C.line}`, padding: 18, borderRadius: 10, marginBottom: 20, whiteSpace: 'pre-line', fontSize: 15, color: C.navyDeep, lineHeight: 1.7 }}>
-            {generatedMessage}
-          </div>
-          <div style={{ display: 'grid', gap: 10, marginBottom: 16 }}>
-            <button onClick={handleKakao} style={{ padding: '18px 0', background: '#FEE500', color: '#3C1E1E', fontSize: 17, fontWeight: 800, border: 'none', borderRadius: 100, cursor: 'pointer', boxShadow: '0 4px 14px rgba(254,229,0,0.4)' }}>
-              💬 카카오톡으로 보내기
-            </button>
-            <button onClick={handleSMS} style={{ padding: '18px 0', background: C.navyDeep, color: '#fff', fontSize: 17, fontWeight: 800, border: 'none', borderRadius: 100, cursor: 'pointer', boxShadow: '0 4px 14px rgba(9,27,45,0.3)' }}>
-              📱 문자로 보내기
-            </button>
-          </div>
-          {copied && (
-            <div style={{ textAlign: 'center', fontSize: 14, color: C.navyDeep, fontWeight: 700, marginBottom: 12, padding: '10px 12px', background: '#FFF3D6', border: `1px solid ${C.gold}`, borderRadius: 8 }}>
-              ✓ 내용이 복사되었습니다. 채팅창에 붙여넣어 주세요.
-            </div>
-          )}
-          <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, textAlign: 'center', margin: '0 0 24px' }}>
-            카카오톡 — 내용 자동 복사 후 채널 채팅창 열림<br/>
-            문자 — 메시지 앱에 내용 자동 입력
-          </p>
-          <button onClick={resetQuote} style={{ width: '100%', padding: '14px 0', background: 'transparent', color: C.muted, fontSize: 14, border: `1px solid ${C.line}`, borderRadius: 8, cursor: 'pointer', marginBottom: 12 }}>
-            ← 다시 작성하기
-          </button>
-          <button onClick={() => { resetQuote(); setTab('home'); }} style={{ width: '100%', padding: '14px 0', background: 'transparent', color: C.muted, fontSize: 14, border: `1px solid ${C.line}`, borderRadius: 8, cursor: 'pointer' }}>
-            홈으로
-          </button>
-          <div style={{ height: 130 }} />
-        </div>
-      );
-    }
-    return (
-      <div style={{ background: C.paper, minHeight: '100%' }}>
-        <div style={{ background: C.navyDeep, color: '#fff', padding: '28px 22px 24px' }}>
-          <div style={{ fontSize: 14, color: C.gold, fontWeight: 800, letterSpacing: '0.1em', marginBottom: 8 }}>— 견적 요청</div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, margin: 0, letterSpacing: '-0.03em' }}>견적 요청</h1>
-          <p style={{ fontSize: 15, color: '#d8dfe8', margin: '10px 0 0', lineHeight: 1.6 }}>접수하시면 카톡·문자로<br/>영업시간 내 회신드립니다.</p>
-        </div>
-        <form onSubmit={handleQuoteSubmit} style={{ padding: 22, display: 'grid', gap: 22 }}>
-          <Field label="작업 주소지" required>
-            <input name="address" required placeholder="예) 경기 광명시 ..." style={inputStyle(C)} />
-          </Field>
-          <Field label="문제 / 작업 내용" required>
-            <textarea name="detail" required rows={5} placeholder="예) 베란다 외벽 실리콘이 노후되어 누수가 의심됩니다." style={{ ...inputStyle(C), resize: 'vertical' }} />
-          </Field>
-          <Field label="건물 유형" required>
-            <select name="buildingType" required style={inputStyle(C)} defaultValue="">
-              <option value="" disabled>선택해주세요</option>
-              <option>아파트</option>
-              <option>빌라 / 다세대</option>
-              <option>오피스 / 빌딩</option>
-              <option>프라자 / 상가</option>
-              <option>주택</option>
-              <option>기타</option>
-            </select>
-          </Field>
-          <Field label="의뢰 항목" hint="* 복수 선택 가능">
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {['외벽 코킹', '누수 보수', '창호 실링', '발수제', '판넬', '기타'].map((t) => {
-                const sel = selectedItems.includes(t);
-                return (
-                  <button key={t} type="button" onClick={() => toggleItem(t)} style={{
-                    padding: '12px 18px',
-                    background: sel ? C.navyDeep : '#fff',
-                    border: `1.5px solid ${sel ? C.navyDeep : C.line}`,
-                    color: sel ? '#fff' : C.navyDeep,
-                    fontSize: 15,
-                    fontWeight: sel ? 800 : 600,
-                    borderRadius: 100,
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease',
-                    minHeight: 48,
-                  }}>{t}</button>
-                );
-              })}
-            </div>
-          </Field>
-          <Field label="희망 방문일" hint="* 희망사항이며, 일정 협의 후 확정됩니다.">
-            <input name="visitDate" type="date" style={inputStyle(C)} />
-          </Field>
-          <Field label="사진 첨부" hint="* 사진은 카톡/문자 발송 후 채팅창에 직접 첨부해주세요.">
-            <div style={{ padding: '20px 16px', border: `2px dashed ${C.line}`, borderRadius: 8, textAlign: 'center', background: '#fff', color: C.muted, fontSize: 14, lineHeight: 1.6 }}>
-              📷 누수 위치·문제 위치 사진을<br/>채팅창에서 직접 보내주세요
-            </div>
-          </Field>
-          <Field label="연락처" required>
-            <input name="phone" required type="tel" placeholder="010-0000-0000" style={inputStyle(C)} />
-          </Field>
-          <button type="submit" style={{ padding: '20px', background: C.gold, color: C.navyDeep, fontSize: 18, fontWeight: 800, border: 'none', borderRadius: 8, cursor: 'pointer', letterSpacing: '-0.01em' }}>
-            견적 요청 보내기 →
-          </button>
-          <div style={{ textAlign: 'center', fontSize: 14, color: C.muted, lineHeight: 1.7, marginTop: 8, padding: '16px', background: '#fff', borderRadius: 8, border: `1px solid ${C.line}` }}>
-            또는 <a href={`http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`} target="_blank" rel="noopener noreferrer" style={{ color: C.navyDeep, fontWeight: 800, textDecoration: 'none' }}>카카오톡 채널 @뽀송코킹</a>으로<br/>바로 문의 주셔도 됩니다.
-          </div>
-        </form>
-        <div style={{ height: 130 }} />
-      </div>
-    );
-  };
-
   const ContactPage = () => (
     <div style={{ background: C.paper, minHeight: '100%' }}>
       <div style={{ background: C.navyDeep, color: '#fff', padding: '28px 22px 24px' }}>
@@ -381,17 +278,32 @@ const MobileANavy = () => {
       <div style={{ padding: 22, display: 'grid', gap: 14 }}>
         {[
           { k: '대표', v: '이용우' },
-          { k: '사업자등록번호', v: '612-28-77927' },
-          { k: '전화', v: '010-8018-0701', cta: 'tel:01080180701' },
-          { k: '카카오톡', v: '@뽀송코킹', cta: '#' },
-          { k: '이메일', v: 'lywgogo2@naver.com' },
-          { k: '소재지', v: '경기 광명시 하안로 320' },
+          { k: '사업자등록번호', v: '612-28-77927', copy: true },
+          { k: '전화', v: '010-8018-0701', cta: 'tel:01080180701', copy: true },
+          { k: '카카오톡', v: '@뽀송코킹', cta: `http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`, ctaTarget: '_blank' },
+          { k: '이메일', v: 'lywgogo2@naver.com', cta: 'mailto:lywgogo2@naver.com', copy: true },
+          { k: '소재지', v: '경기 광명시 하안로 320', copy: true },
           { k: '운영시간', v: '월~토 09:00–19:00' },
           { k: '시공권역', v: '서울 · 경기 · 인천' },
         ].map((it, i) => (
           <div key={i} style={{ background: '#fff', border: `1px solid ${C.line}`, borderRadius: 10, padding: '16px 18px' }}>
-            <div style={{ fontSize: 13, color: C.muted, letterSpacing: '0.1em', fontWeight: 700, marginBottom: 6 }}>{it.k}</div>
-            <div style={{ fontSize: 18, fontWeight: 700, color: C.navyDeep, whiteSpace: 'pre-line', lineHeight: 1.5 }}>{it.v}</div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 13, color: C.muted, letterSpacing: '0.1em', fontWeight: 700, marginBottom: 6 }}>{it.k}</div>
+                {it.cta ? (
+                  <a href={it.cta} target={it.ctaTarget} rel={it.ctaTarget === '_blank' ? 'noopener noreferrer' : undefined} style={{ fontSize: 18, fontWeight: 700, color: C.navyDeep, whiteSpace: 'pre-line', lineHeight: 1.5, textDecoration: 'underline', textDecorationColor: C.gold, textDecorationThickness: 2, textUnderlineOffset: 4 }}>
+                    {it.v}
+                  </a>
+                ) : (
+                  <div style={{ fontSize: 18, fontWeight: 700, color: C.navyDeep, whiteSpace: 'pre-line', lineHeight: 1.5 }}>{it.v}</div>
+                )}
+              </div>
+              {it.copy && (
+                <button onClick={() => copyToClipboard(it.k, it.v)} style={{ flexShrink: 0, padding: '8px 12px', background: copiedField === it.k ? C.gold : 'transparent', color: copiedField === it.k ? C.navyDeep : C.navyDeep, fontSize: 13, fontWeight: 700, border: `1.5px solid ${copiedField === it.k ? C.gold : C.line}`, borderRadius: 6, cursor: 'pointer', whiteSpace: 'nowrap', minHeight: 36 }}>
+                  {copiedField === it.k ? '✓ 복사됨' : '복사'}
+                </button>
+              )}
+            </div>
           </div>
         ))}
       </div>
@@ -409,7 +321,7 @@ const MobileANavy = () => {
       { id: 'contact', label: '연락', icon: '☏' },
     ];
     return (
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: '#fff', borderTop: `1px solid ${C.line}`, paddingTop: 8, paddingBottom: `calc(${SAFE_BOTTOM} + 12px)`, display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', zIndex: 30, boxShadow: '0 -4px 16px rgba(9,27,45,0.06)' }}>
+      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#fff', borderTop: `1px solid ${C.line}`, paddingTop: 8, paddingBottom: `calc(${SAFE_BOTTOM} + 12px)`, display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', zIndex: 30, boxShadow: '0 -4px 16px rgba(9,27,45,0.06)' }}>
         {tabs.map(t => (
           <button key={t.id} onClick={() => setTab(t.id)} style={{ background: 'none', border: 'none', padding: '8px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, cursor: 'pointer', color: tab === t.id ? C.gold : C.muted, minHeight: 56 }}>
             <div style={{ fontSize: 22, lineHeight: 1, fontWeight: 700 }}>{t.icon}</div>
@@ -420,21 +332,24 @@ const MobileANavy = () => {
     );
   };
 
-  // 하단 고정 CTA — 탭바 위에 떠있음, safe-area 반영
+  // 하단 고정 CTA — 탭바 위에 떠있음, safe-area 반영, 스크롤 시 따라옴 (fixed)
   const StickyCTA = () => (
-    <div style={{ position: 'absolute', bottom: `calc(${SAFE_BOTTOM} + 80px)`, left: 14, right: 14, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, zIndex: 25 }}>
-      <a href="tel:01080180701" style={{ padding: '16px 0', background: C.navyDeep, color: '#fff', borderRadius: 100, fontSize: 16, fontWeight: 800, textAlign: 'center', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, boxShadow: '0 6px 18px rgba(9,27,45,0.35)' }}>
-        <span style={{ fontSize: 18 }}>📞</span> 전화 상담
+    <div style={{ position: 'fixed', bottom: `calc(${SAFE_BOTTOM} + 100px)`, left: 12, right: 12, display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6, zIndex: 25 }}>
+      <a href="tel:01080180701" style={{ padding: '14px 0', background: C.navyDeep, color: '#fff', borderRadius: 100, fontSize: 14, fontWeight: 800, textAlign: 'center', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, boxShadow: '0 6px 18px rgba(9,27,45,0.35)' }}>
+        <span style={{ fontSize: 16 }}>📞</span> 전화
       </a>
-      <a href={`http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`} target="_blank" rel="noopener noreferrer" style={{ padding: '16px 0', background: '#FEE500', color: '#3C1E1E', borderRadius: 100, fontSize: 16, fontWeight: 800, textAlign: 'center', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, boxShadow: '0 6px 18px rgba(254,229,0,0.45)', textDecoration: 'none' }}>
-        <span style={{ fontSize: 18 }}>💬</span> 카톡 문의
+      <a href="sms:01080180701" style={{ padding: '14px 0', background: '#fff', color: C.navyDeep, borderRadius: 100, fontSize: 14, fontWeight: 800, textAlign: 'center', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, border: `1.5px solid ${C.navyDeep}`, boxShadow: '0 6px 18px rgba(9,27,45,0.15)' }}>
+        <span style={{ fontSize: 16 }}>✉️</span> 문자
+      </a>
+      <a href={`http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`} target="_blank" rel="noopener noreferrer" style={{ padding: '14px 0', background: '#FEE500', color: '#3C1E1E', borderRadius: 100, fontSize: 14, fontWeight: 800, textAlign: 'center', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5, textDecoration: 'none', boxShadow: '0 6px 18px rgba(254,229,0,0.45)' }}>
+        <span style={{ fontSize: 16 }}>💬</span> 카톡
       </a>
     </div>
   );
 
   // 상단 브랜드 바 — 노치 영역 위에 padding-top 으로 안전 영역 확보
   const TopBar = () => (
-    <div style={{ background: C.navyDeep, color: '#fff', paddingLeft: 18, paddingRight: 18, paddingTop: `calc(${SAFE_TOP} + 12px)`, paddingBottom: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.08)', minHeight: 56 }}>
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 30, background: C.navyDeep, color: '#fff', paddingLeft: 18, paddingRight: 18, paddingTop: `calc(${SAFE_TOP} + 12px)`, paddingBottom: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.08)', minHeight: 56, boxShadow: '0 2px 12px rgba(9,27,45,0.18)' }}>
       <div onClick={() => setTab('home')} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
         <div style={{ width: 30, height: 30, background: C.gold, borderRadius: 5, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.navyDeep, fontWeight: 800, fontSize: 15 }}>BS</div>
         <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em' }}>뽀송코킹</div>
@@ -443,12 +358,32 @@ const MobileANavy = () => {
     </div>
   );
 
-  const pages = { home: <HomePage />, services: <ServicesPage />, works: <WorksPage />, quote: <QuotePage />, contact: <ContactPage /> };
+  const pages = {
+    home: <HomePage />,
+    services: <ServicesPage />,
+    works: <WorksPage />,
+    quote: (
+      <MobileQuoteSection
+        C={C}
+        submitted={submitted}
+        generatedMessage={generatedMessage}
+        copied={copied}
+        selectedItems={selectedItems}
+        toggleItem={toggleItem}
+        handleQuoteSubmit={handleQuoteSubmit}
+        handleKakao={handleKakao}
+        handleSMS={handleSMS}
+        resetQuote={resetQuote}
+        goHome={() => { resetQuote(); setTab('home'); }}
+      />
+    ),
+    contact: <ContactPage />,
+  };
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative', background: C.paper, fontFamily: "'Pretendard', sans-serif", color: C.text, letterSpacing: '-0.005em', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
       <TopBar />
-      <div style={{ flex: 1, overflow: 'auto', position: 'relative' }}>
+      <div style={{ flex: 1, overflow: 'auto', position: 'relative', paddingTop: `calc(${SAFE_TOP} + 56px)` }}>
         {pages[tab]}
       </div>
       {tab !== 'quote' && <StickyCTA />}
@@ -473,5 +408,133 @@ const inputStyle = (C) => ({
   border: `1.5px solid ${C.line}`, borderRadius: 8, background: '#fff', color: C.navyDeep,
   outline: 'none', boxSizing: 'border-box', minHeight: 56,
 });
+
+// 견적 페이지 — 외부 컴포넌트로 분리해서 부모 리렌더 시 unmount 방지
+const MobileQuoteSection = ({ C, submitted, generatedMessage, copied, selectedItems, toggleItem, handleQuoteSubmit, handleKakao, handleSMS, resetQuote, goHome }) => {
+  if (submitted) {
+    return (
+      <div style={{ background: C.paper, minHeight: '100%', padding: '32px 22px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+          <div style={{ width: 64, height: 64, margin: '0 auto 18px', borderRadius: '50%', background: C.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, fontWeight: 800, color: C.navyDeep }}>✓</div>
+          <h2 style={{ fontSize: 24, fontWeight: 800, color: C.navyDeep, margin: '0 0 10px', letterSpacing: '-0.03em' }}>견적 내용이 정리되었습니다</h2>
+          <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.6, margin: 0 }}>
+            아래 두 가지 방법 중 편하신 방법으로<br/>전송해주세요. 사진은 채팅창에 직접 첨부해주세요.
+          </p>
+        </div>
+        <div style={{ background: '#fff', border: `1px solid ${C.line}`, padding: 18, borderRadius: 10, marginBottom: 20, whiteSpace: 'pre-line', fontSize: 15, color: C.navyDeep, lineHeight: 1.7 }}>
+          {generatedMessage}
+        </div>
+        <div style={{ display: 'grid', gap: 10, marginBottom: 16 }}>
+          <button onClick={handleKakao} style={{ padding: '18px 0', background: '#FEE500', color: '#3C1E1E', fontSize: 17, fontWeight: 800, border: 'none', borderRadius: 100, cursor: 'pointer', boxShadow: '0 4px 14px rgba(254,229,0,0.4)' }}>
+            💬 카카오톡으로 보내기
+          </button>
+          <button onClick={handleSMS} style={{ padding: '18px 0', background: C.navyDeep, color: '#fff', fontSize: 17, fontWeight: 800, border: 'none', borderRadius: 100, cursor: 'pointer', boxShadow: '0 4px 14px rgba(9,27,45,0.3)' }}>
+            ✉️ 문자로 보내기
+          </button>
+        </div>
+        {copied && (
+          <div style={{ textAlign: 'center', fontSize: 14, color: C.navyDeep, fontWeight: 700, marginBottom: 12, padding: '10px 12px', background: '#FFF3D6', border: `1px solid ${C.gold}`, borderRadius: 8 }}>
+            ✓ 내용이 복사되었습니다. 채팅창에 붙여넣어 주세요.
+          </div>
+        )}
+        <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, textAlign: 'center', margin: '0 0 24px' }}>
+          카카오톡 — 내용 자동 복사 후 채널 채팅창 열림<br/>
+          문자 — 메시지 앱에 내용 자동 입력
+        </p>
+        <button onClick={resetQuote} style={{ width: '100%', padding: '14px 0', background: 'transparent', color: C.muted, fontSize: 14, border: `1px solid ${C.line}`, borderRadius: 8, cursor: 'pointer', marginBottom: 12 }}>
+          ← 다시 작성하기
+        </button>
+        <button onClick={goHome} style={{ width: '100%', padding: '14px 0', background: 'transparent', color: C.muted, fontSize: 14, border: `1px solid ${C.line}`, borderRadius: 8, cursor: 'pointer' }}>
+          홈으로
+        </button>
+        <div style={{ height: 130 }} />
+      </div>
+    );
+  }
+  return (
+    <div style={{ background: C.paper, minHeight: '100%' }}>
+      <div style={{ background: C.navyDeep, color: '#fff', padding: '28px 22px 24px' }}>
+        <div style={{ fontSize: 14, color: C.gold, fontWeight: 800, letterSpacing: '0.1em', marginBottom: 8 }}>— 견적 요청</div>
+        <h1 style={{ fontSize: 32, fontWeight: 800, margin: 0, letterSpacing: '-0.03em' }}>견적 요청</h1>
+        <p style={{ fontSize: 15, color: '#d8dfe8', margin: '10px 0 0', lineHeight: 1.6 }}>접수하시면 카톡·문자로<br/>영업시간 내 회신드립니다.</p>
+      </div>
+      <MobileQuoteForm
+        C={C}
+        selectedItems={selectedItems}
+        onToggleItem={toggleItem}
+        onSubmit={handleQuoteSubmit}
+      />
+      <div style={{ height: 130 }} />
+    </div>
+  );
+};
+
+// 견적 폼 — 외부 컴포넌트로 분리해서 부모 리렌더에 영향 없도록 (controlled)
+const MobileQuoteForm = ({ C, selectedItems, onToggleItem, onSubmit }) => {
+  const [formData, setFormData] = React.useState({
+    address: '', detail: '', buildingType: '', visitDate: '', phone: ''
+  });
+  const update = (k) => (e) => setFormData(p => ({ ...p, [k]: e.target.value }));
+  const handle = (e) => {
+    e.preventDefault();
+    onSubmit({ ...formData, items: selectedItems });
+  };
+
+  return (
+    <form onSubmit={handle} style={{ padding: 22, display: 'grid', gap: 22 }}>
+      <Field label="작업 주소지" required>
+        <input value={formData.address} onChange={update('address')} required placeholder="예) 경기 광명시 ..." style={inputStyle(C)} />
+      </Field>
+      <Field label="문제 / 작업 내용" required>
+        <textarea value={formData.detail} onChange={update('detail')} required rows={5} placeholder="예) 베란다 외벽 실리콘이 노후되어 누수가 의심됩니다." style={{ ...inputStyle(C), resize: 'vertical' }} />
+      </Field>
+      <Field label="건물 유형" required>
+        <select value={formData.buildingType} onChange={update('buildingType')} required style={inputStyle(C)}>
+          <option value="" disabled>선택해주세요</option>
+          <option>아파트</option>
+          <option>빌라 / 다세대</option>
+          <option>오피스 / 빌딩</option>
+          <option>프라자 / 상가</option>
+          <option>주택</option>
+          <option>기타</option>
+        </select>
+      </Field>
+      <Field label="의뢰 항목" hint="* 복수 선택 가능">
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {['외벽 코킹', '누수 보수', '창호 실링', '발수제', '판넬', '기타'].map((t) => {
+            const sel = selectedItems.includes(t);
+            return (
+              <button key={t} type="button" onClick={() => onToggleItem(t)} style={{
+                padding: '12px 18px',
+                background: sel ? C.navyDeep : '#fff',
+                border: `1.5px solid ${sel ? C.navyDeep : C.line}`,
+                color: sel ? '#fff' : C.navyDeep,
+                fontSize: 15,
+                fontWeight: sel ? 800 : 600,
+                borderRadius: 100,
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+                minHeight: 48,
+              }}>{t}</button>
+            );
+          })}
+        </div>
+      </Field>
+      <Field label="희망 방문일" hint="* 희망사항이며, 일정 협의 후 확정됩니다.">
+        <input value={formData.visitDate} onChange={update('visitDate')} type="date" style={inputStyle(C)} />
+      </Field>
+      <Field label="연락처" required>
+        <input value={formData.phone} onChange={update('phone')} required type="tel" placeholder="010-0000-0000" style={inputStyle(C)} />
+      </Field>
+      <button type="submit" style={{ padding: '20px', background: C.gold, color: C.navyDeep, fontSize: 18, fontWeight: 800, border: 'none', borderRadius: 8, cursor: 'pointer', letterSpacing: '-0.01em' }}>
+        견적 요청 보내기 →
+      </button>
+      <div style={{ fontSize: 14, color: C.muted, lineHeight: 1.7, padding: '14px 16px', background: '#fff', borderRadius: 8, border: `1px solid ${C.line}`, textAlign: 'center' }}>
+        📷 사진은 카톡 / 문자 채팅창에서 직접 첨부해주세요.<br/>
+        또는 <a href={`http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`} target="_blank" rel="noopener noreferrer" style={{ color: C.navyDeep, fontWeight: 800, textDecoration: 'none' }}>카카오톡 채널 @뽀송코킹</a>으로 바로 문의 주셔도 됩니다.
+      </div>
+    </form>
+  );
+};
 
 window.MobileANavy = MobileANavy;

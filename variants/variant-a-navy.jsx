@@ -6,6 +6,16 @@ const VariantANavy = () => {
   const [selectedItems, setSelectedItems] = React.useState([]);
   const [generatedMessage, setGeneratedMessage] = React.useState('');
   const [copied, setCopied] = React.useState(false);
+  const [copiedField, setCopiedField] = React.useState(null);
+
+  const copyToClipboard = (key, text) => {
+    try {
+      navigator.clipboard.writeText(text).then(() => {
+        setCopiedField(key);
+        setTimeout(() => setCopiedField(null), 2000);
+      });
+    } catch (e) {}
+  };
 
   const toggleItem = (item) => {
     setSelectedItems(prev =>
@@ -433,17 +443,31 @@ const VariantANavy = () => {
             </p>
             <div style={{ display: 'grid', gap: 20 }}>
               {[
-                { l: '대표 전화', v: '010-8018-0701', sub: '월~토 09:00 – 19:00' },
-                { l: '카카오톡', v: '뽀송코킹', sub: '메시지 남겨주세요' },
-                { l: '이메일', v: 'lywgogo2@naver.com', sub: '도면·사진 첨부 가능' },
-                { l: '본사', v: '경기 광명시 하안로 320', sub: '일정 확인 후 방문' },
+                { l: '대표 전화', v: '010-8018-0701', sub: '월~토 09:00 – 19:00', cta: 'tel:01080180701', copy: true },
+                { l: '카카오톡', v: '뽀송코킹', sub: '메시지 남겨주세요', cta: `http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`, external: true },
+                { l: '이메일', v: 'lywgogo2@naver.com', sub: '도면·사진 첨부 가능', cta: 'mailto:lywgogo2@naver.com', copy: true },
+                { l: '본사', v: '경기 광명시 하안로 320', sub: '일정 확인 후 방문', copy: true },
               ].map((c, i) => (
-                <div key={i} style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 24, paddingBottom: 20, borderBottom: i < 3 ? `1px solid ${C.line}` : 'none' }}>
-                  <div style={{ fontSize: 12, color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Inter',sans-serif", paddingTop: 4 }}>{c.l}</div>
-                  <div>
-                    <div style={{ fontSize: 18, fontWeight: 600, color: '#fff', fontFamily: "'Space Grotesk',sans-serif" }}>{c.v}</div>
+                <div key={i} style={{ display: 'grid', gridTemplateColumns: '120px 1fr auto', gap: 24, alignItems: 'center', paddingBottom: 20, borderBottom: i < 3 ? `1px solid ${C.line}` : 'none' }}>
+                  <div style={{ fontSize: 12, color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Inter',sans-serif", paddingTop: 4, alignSelf: 'flex-start' }}>{c.l}</div>
+                  <div style={{ minWidth: 0 }}>
+                    {c.cta ? (
+                      <a href={c.cta}
+                        target={c.external ? '_blank' : undefined}
+                        rel={c.external ? 'noopener noreferrer' : undefined}
+                        style={{ fontSize: 18, fontWeight: 600, color: '#fff', fontFamily: "'Space Grotesk',sans-serif", textDecoration: 'underline', textDecorationColor: C.gold, textDecorationThickness: 2, textUnderlineOffset: 4 }}>
+                        {c.v}
+                      </a>
+                    ) : (
+                      <div style={{ fontSize: 18, fontWeight: 600, color: '#fff', fontFamily: "'Space Grotesk',sans-serif" }}>{c.v}</div>
+                    )}
                     <div style={{ fontSize: 13, color: C.muted, marginTop: 4 }}>{c.sub}</div>
                   </div>
+                  {c.copy && (
+                    <button onClick={() => copyToClipboard(c.l, c.v)} style={{ padding: '8px 14px', background: copiedField === c.l ? C.gold : 'transparent', color: copiedField === c.l ? C.navyDeep : '#fff', fontSize: 12, fontWeight: 600, border: `1px solid ${copiedField === c.l ? C.gold : C.line}`, borderRadius: 4, cursor: 'pointer', whiteSpace: 'nowrap', alignSelf: 'flex-start', marginTop: 4, fontFamily: 'inherit', letterSpacing: '0.05em' }}>
+                      {copiedField === c.l ? '✓ 복사됨' : '복사'}
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
@@ -501,22 +525,16 @@ const VariantANavy = () => {
                 <div style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${C.line}`, padding: 20, borderRadius: 6, marginBottom: 20, whiteSpace: 'pre-line', fontSize: 13, color: '#cfd8e3', lineHeight: 1.7, fontFamily: "'Pretendard', sans-serif" }}>
                   {generatedMessage}
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
-                  <button onClick={handleKakao} style={{ padding: '16px 0', background: '#FEE500', color: '#3C1E1E', fontSize: 15, fontWeight: 700, border: 'none', borderRadius: 6, cursor: 'pointer', fontFamily: 'inherit' }}>
-                    카카오톡으로 보내기
-                  </button>
-                  <button onClick={handleSMS} style={{ padding: '16px 0', background: '#fff', color: C.navyDeep, fontSize: 15, fontWeight: 700, border: 'none', borderRadius: 6, cursor: 'pointer', fontFamily: 'inherit' }}>
-                    문자로 보내기
-                  </button>
-                </div>
+                <button onClick={handleKakao} style={{ width: '100%', padding: '16px 0', background: '#FEE500', color: '#3C1E1E', fontSize: 15, fontWeight: 700, border: 'none', borderRadius: 6, cursor: 'pointer', fontFamily: 'inherit', marginBottom: 16 }}>
+                  💬 카카오톡으로 보내기
+                </button>
                 {copied && (
                   <div style={{ textAlign: 'center', fontSize: 13, color: C.gold, marginBottom: 12 }}>
                     ✓ 내용이 복사되었습니다. 카카오톡 채팅창에 붙여넣어 주세요.
                   </div>
                 )}
                 <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, textAlign: 'center', margin: 0 }}>
-                  카카오톡 — 내용 자동 복사 후 채널 채팅창 열림<br/>
-                  문자 — 메시지 앱에 내용이 자동 입력됨 (모바일에서 권장)
+                  내용이 자동 복사됩니다. 카카오톡 채널 채팅창에 붙여넣어 주세요.
                 </p>
                 <button onClick={resetForm} style={{ marginTop: 20, width: '100%', padding: '12px 0', background: 'transparent', color: C.muted, fontSize: 13, border: `1px solid ${C.line}`, borderRadius: 4, cursor: 'pointer', fontFamily: 'inherit' }}>
                   ← 다시 작성하기
@@ -540,14 +558,36 @@ const VariantANavy = () => {
             </div>
           </div>
           {[
-            { t: '서비스', items: ['외벽 코킹', '누수 보수', '창호 실링', '발수제 시공'] },
-            { t: '회사', items: ['회사 소개', '시공 사례', '공지사항', '채용'] },
-            { t: '문의', items: ['010-8018-0701', 'KAKAO 뽀송코킹', 'lywgogo2@naver.com'] },
+            { t: '서비스', items: [
+              { label: '외벽 코킹', href: '#services' },
+              { label: '누수 보수', href: '#services' },
+              { label: '창호 실링', href: '#services' },
+              { label: '발수제 시공', href: '#services' },
+            ]},
+            { t: '회사', items: [
+              { label: '회사 소개', href: '#about' },
+              { label: '시공 사례', href: '#portfolio' },
+              { label: '진행 과정', href: '#process' },
+              { label: '고객 후기', href: '#testimonials' },
+            ]},
+            { t: '문의', items: [
+              { label: '010-8018-0701', href: 'tel:01080180701' },
+              { label: 'KAKAO 뽀송코킹', href: `http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`, external: true },
+              { label: 'lywgogo2@naver.com', href: 'mailto:lywgogo2@naver.com' },
+            ]},
           ].map((col, i) => (
             <div key={i}>
               <div style={{ fontSize: 12, color: '#fff', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 16 }}>{col.t}</div>
               <div style={{ display: 'grid', gap: 10 }}>
-                {col.items.map((it, j) => <div key={j} style={{ fontSize: 13 }}>{it}</div>)}
+                {col.items.map((it, j) => (
+                  <a key={j} href={it.href}
+                    target={it.external ? '_blank' : undefined}
+                    rel={it.external ? 'noopener noreferrer' : undefined}
+                    style={{ fontSize: 13, color: '#cfd8e3', textDecoration: 'none', transition: 'color 0.15s' }}
+                    onMouseEnter={(e) => e.target.style.color = '#fff'}
+                    onMouseLeave={(e) => e.target.style.color = '#cfd8e3'}
+                  >{it.label}</a>
+                ))}
               </div>
             </div>
           ))}
