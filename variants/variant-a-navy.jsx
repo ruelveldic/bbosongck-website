@@ -3,6 +3,53 @@ const VariantANavy = () => {
   const [activeService, setActiveService] = React.useState(0);
   const [openFaq, setOpenFaq] = React.useState(0);
   const [submitted, setSubmitted] = React.useState(false);
+  const [selectedItems, setSelectedItems] = React.useState([]);
+  const [generatedMessage, setGeneratedMessage] = React.useState('');
+  const [copied, setCopied] = React.useState(false);
+
+  const toggleItem = (item) => {
+    setSelectedItems(prev =>
+      prev.includes(item) ? prev.filter(x => x !== item) : [...prev, item]
+    );
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const data = Object.fromEntries(fd);
+    const lines = [
+      '[뽀송코킹 견적 문의]',
+      `성함: ${data.name || '-'}`,
+      `연락처: ${data.phone || '-'}`,
+      data.address ? `현장 주소: ${data.address}` : '',
+      selectedItems.length > 0 ? `의뢰 항목: ${selectedItems.join(', ')}` : '',
+      data.detail ? `요청 사항:\n${data.detail}` : '',
+    ].filter(Boolean);
+    setGeneratedMessage(lines.join('\n'));
+    setSubmitted(true);
+  };
+
+  const handleKakao = async () => {
+    try {
+      await navigator.clipboard.writeText(generatedMessage);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch (e) {}
+    window.open(`http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`, '_blank');
+  };
+
+  const handleSMS = () => {
+    try { navigator.clipboard.writeText(generatedMessage); } catch (e) {}
+    const body = encodeURIComponent(generatedMessage);
+    window.location.href = `sms:01080180701?body=${body}`;
+  };
+
+  const resetForm = () => {
+    setSubmitted(false);
+    setSelectedItems([]);
+    setGeneratedMessage('');
+    setCopied(false);
+  };
 
   const C = {
     navy: '#0F2A44', navyDeep: '#091B2D', navyMid: '#1C3D5C',
@@ -12,7 +59,7 @@ const VariantANavy = () => {
   };
 
   const services = [
-    { ko: '외벽 실리콘 코킹', en: 'Exterior Caulking', desc: '아파트·빌딩 외벽 실리콘 재시공으로 누수와 결로를 차단합니다.', spec: '내후성 실리콘 / 보증 5년', img: 'assets/apartment.png' },
+    { ko: '외벽 실리콘 코킹', en: 'Exterior Caulking', desc: '아파트·빌딩 외벽 실리콘 재시공으로 누수와 결로를 차단합니다.', spec: '내후성 실리콘 / 보증 2년', img: 'assets/apartment.png' },
     { ko: '건물 누수 보수', en: 'Leak Repair', desc: '누수 원인 진단부터 부위별 정밀 보수까지 한 팀이 책임집니다.', spec: '현장 진단 무료', img: 'assets/crack.png' },
     { ko: '창호·유리 코킹', en: 'Window Sealing', desc: '창호 주변 실링 재시공으로 단열·방음 성능을 회복합니다.', spec: '24시간 경화', img: 'assets/glass.png' },
     { ko: '외벽 크랙 보수', en: 'Crack Repair', desc: '균열 폭에 맞춰 우레탄·실리콘으로 재밀폐 처리합니다.', spec: '구조 검토 포함', img: 'assets/crack.png' },
@@ -25,7 +72,7 @@ const VariantANavy = () => {
     { n: '02', t: '현장 실사', d: '담당자가 직접 방문해 부위·자재·환경을 점검합니다.' },
     { n: '03', t: '견적 제출', d: '평수·자재·공정별로 투명하게 산출된 견적을 드립니다.' },
     { n: '04', t: '시공 진행', d: '안전 장비를 갖춘 숙련 인력이 직접 시공합니다.' },
-    { n: '05', t: 'A/S 보증', d: '시공 부위는 5년간 무상 A/S로 책임집니다.' },
+    { n: '05', t: 'A/S 보증', d: '시공 부위는 2년간 무상 A/S로 책임집니다.' },
   ];
 
   const portfolio = [
@@ -44,11 +91,10 @@ const VariantANavy = () => {
   ];
 
   const faqs = [
-    { q: '시공 보증 기간은 어떻게 되나요?', a: '시공 부위에 따라 다르지만, 외벽 실리콘 코킹은 기본 5년 무상 A/S를 보장합니다. 시공 직후 발생하는 하자는 즉시 재방문 처리합니다.' },
+    { q: '시공 보증 기간은 어떻게 되나요?', a: '시공 부위에 따라 다르지만, 외벽 실리콘 코킹은 기본 2년 무상 A/S를 보장합니다. 시공 직후 발생하는 하자는 즉시 재방문 처리합니다.' },
     { q: '견적은 무료인가요?', a: '서울·경기 권역은 현장 실사와 견적 모두 무료로 진행합니다. 원거리 지역은 사전 안내드린 후 진행합니다.' },
     { q: '비 오는 날에도 시공이 가능한가요?', a: '실리콘 자재는 표면이 건조한 상태에서만 시공할 수 있어, 우천 시에는 일정 조정을 안내드립니다. 안전과 품질을 위한 부분입니다.' },
     { q: '입주 상태에서도 시공할 수 있나요?', a: '가능합니다. 입주민이 거주 중인 상태에서도 외벽 작업이 가능하며, 작업 일정·소음·먼지에 대해 사전 공지를 도와드립니다.' },
-    { q: '자재는 어떤 등급을 사용하나요?', a: '국내외 인증 내후성 실리콘(KS·산업표준 등급)만 사용합니다. 견적서에 자재 브랜드와 등급을 명시해 드립니다.' },
   ];
 
   return (
@@ -57,14 +103,14 @@ const VariantANavy = () => {
       {/* TOP UTILITY BAR */}
       <div style={{ background: C.navyDeep, color: '#cfd8e3', fontSize: 12, padding: '8px 56px', display: 'flex', justifyContent: 'space-between', fontFamily: "'Inter', sans-serif" }}>
         <div style={{ display: 'flex', gap: 18 }}>
-          <span>평일 08:00 – 19:00 / 주말 사전협의</span>
+          <span>월~토 09:00 – 19:00</span>
           <span style={{ opacity: .5 }}>|</span>
-          <span>서울·경기·인천 당일 현장 방문</span>
+          <span>일정 확인 후 방문</span>
         </div>
         <div style={{ display: 'flex', gap: 18 }}>
-          <span>사업자등록 OOO-OO-OOOOO</span>
+          <span>사업자등록 612-28-77927</span>
           <span style={{ opacity: .5 }}>|</span>
-          <span>KAKAO ID @bbosongck</span>
+          <span>KAKAO 뽀송코킹</span>
         </div>
       </div>
 
@@ -90,7 +136,7 @@ const VariantANavy = () => {
           ))}
         </nav>
         <div style={{ display: 'flex', gap: 10 }}>
-          <a href="tel:01012345678" style={{ padding: '10px 18px', border: `1px solid ${C.line}`, color: '#fff', fontSize: 13, fontWeight: 500, borderRadius: 4, cursor: 'pointer', textDecoration: 'none' }}>1588-0000</a>
+          <a href="tel:01080180701" style={{ padding: '10px 18px', border: `1px solid ${C.line}`, color: '#fff', fontSize: 13, fontWeight: 500, borderRadius: 4, cursor: 'pointer', textDecoration: 'none' }}>010-8018-0701</a>
           <a href="#contact" style={{ padding: '10px 20px', background: C.gold, color: C.navyDeep, fontSize: 13, fontWeight: 700, borderRadius: 4, cursor: 'pointer', textDecoration: 'none' }}>무료 견적 →</a>
         </div>
       </header>
@@ -103,14 +149,14 @@ const VariantANavy = () => {
           <div>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '8px 14px', background: 'rgba(245,165,36,0.12)', border: `1px solid ${C.gold}`, borderRadius: 100, color: C.goldSoft, fontSize: 12, fontWeight: 600, letterSpacing: '0.08em', marginBottom: 32 }}>
               <span style={{ width: 6, height: 6, background: C.gold, borderRadius: '50%' }} />
-              SINCE 2009 · 누적 시공 1,200건+
+              SINCE 2000s · 누적 시공 1,200건+
             </div>
             <h1 style={{ fontSize: 72, fontWeight: 800, lineHeight: 1.05, margin: '0 0 28px', letterSpacing: '-0.035em' }}>
               건물의 한 줄 실리콘이<br/>
               <span style={{ color: C.gold }}>10년의 차이</span>를 만듭니다.
             </h1>
             <p style={{ fontSize: 18, lineHeight: 1.7, color: '#cfd8e3', maxWidth: 520, margin: '0 0 40px', fontWeight: 400 }}>
-              외벽 실리콘 코킹은 단열·방수·미관을 동시에 결정하는 마감입니다. 뽀송코킹은 아파트·빌딩·상가의 외벽 실링을 15년간 직접 시공해 온 전문 팀입니다.
+              외벽 실리콘 코킹은 단열·방수·미관을 동시에 결정하는 마감입니다. 뽀송코킹은 아파트·빌딩·상가의 외벽 실링을 25년간 직접 시공해 온 전문 팀입니다.
             </p>
             <div style={{ display: 'flex', gap: 12, marginBottom: 56 }}>
               <a href="#contact" style={{ padding: '18px 28px', background: C.gold, color: C.navyDeep, fontSize: 15, fontWeight: 700, borderRadius: 4, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
@@ -122,10 +168,10 @@ const VariantANavy = () => {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24, paddingTop: 32, borderTop: `1px solid ${C.line}` }}>
               {[
-                { n: '15+', l: '경력 연차' },
+                { n: '25+', l: '경력 연차' },
                 { n: '1,200+', l: '누적 시공 건수' },
-                { n: '5년', l: '무상 A/S 보증' },
-                { n: '24h', l: '문의 응대' },
+                { n: '2년', l: '무상 A/S 보증' },
+                { n: '100%', l: '직영 시공' },
               ].map((s, i) => (
                 <div key={i}>
                   <div style={{ fontSize: 32, fontWeight: 700, color: C.gold, fontFamily: "'Space Grotesk',sans-serif", letterSpacing: '-0.02em' }}>{s.n}</div>
@@ -180,7 +226,7 @@ const VariantANavy = () => {
               한 번 시공하면<br/>10년이 가야 합니다.
             </h2>
             <p style={{ fontSize: 16, lineHeight: 1.8, color: '#5a5447', margin: 0 }}>
-              뽀송코킹은 2009년부터 외벽 실링 한 가지 분야에 집중해 온 전문 시공팀입니다. 견적, 자재, 시공, A/S 모든 단계를 자체 인력으로 직접 처리하기 때문에, 가격은 합리적이고 책임은 명확합니다.
+              뽀송코킹은 2000년대 초부터 외벽 실링 한 가지 분야에 집중해 온 전문 시공팀입니다. 견적, 자재, 시공, A/S 모든 단계를 자체 인력으로 직접 처리하기 때문에, 가격은 합리적이고 책임은 명확합니다.
             </p>
             <div style={{ marginTop: 40, padding: '32px 0', borderTop: `1px solid #d8d0c0`, borderBottom: `1px solid #d8d0c0` }}>
               <div style={{ fontFamily: "'Noto Serif KR', serif", fontSize: 22, fontStyle: 'italic', color: C.navyDeep, lineHeight: 1.6, fontWeight: 400 }}>
@@ -194,7 +240,7 @@ const VariantANavy = () => {
               { n: '01', t: '직접 시공', d: '하청 없이 자체 인력만 투입합니다. 책임 라인이 짧고 명확합니다.' },
               { n: '02', t: '투명한 견적', d: '평수·자재·공정별로 항목을 분리해 적습니다. 추가 청구 없습니다.' },
               { n: '03', t: '검증된 자재', d: 'KS 인증 내후성 실리콘만 사용하며, 견적서에 브랜드를 명시합니다.' },
-              { n: '04', t: '5년 A/S 보증', d: '시공 부위 하자에 대해 5년간 무상 재시공으로 책임집니다.' },
+              { n: '04', t: '2년 A/S 보증', d: '시공 부위 하자에 대해 2년간 무상 재시공으로 책임집니다.' },
             ].map((v, i) => (
               <div key={i} style={{ background: '#fff', border: '1px solid #e6e1d6', borderRadius: 6, padding: 28 }}>
                 <div style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 13, fontWeight: 600, color: C.gold, marginBottom: 14 }}>{v.n}</div>
@@ -289,7 +335,7 @@ const VariantANavy = () => {
               최근 시공 사례
             </h2>
           </div>
-          <a style={{ fontSize: 14, color: C.navy, fontWeight: 600, borderBottom: `2px solid ${C.gold}`, paddingBottom: 4, cursor: 'pointer' }}>전체 사례 보기 (124건) →</a>
+          <a href="https://m.blog.naver.com/goomiz?tab=1" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, color: C.navy, fontWeight: 600, borderBottom: `2px solid ${C.gold}`, paddingBottom: 4, cursor: 'pointer', textDecoration: 'none' }}>블로그에서 전체 사례 보기 →</a>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
           {portfolio.map((c, i) => (
@@ -336,6 +382,11 @@ const VariantANavy = () => {
             </div>
           ))}
         </div>
+        <div style={{ marginTop: 56, textAlign: 'center' }}>
+          <a href="https://m.blog.naver.com/goomiz?tab=1" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', padding: '16px 32px', background: 'transparent', border: `1px solid ${C.navy}`, color: C.navyDeep, fontSize: 15, fontWeight: 600, borderRadius: 4, textDecoration: 'none' }}>
+            블로그에서 더 많은 후기 보기 →
+          </a>
+        </div>
       </section>
 
       {/* FAQ */}
@@ -378,14 +429,14 @@ const VariantANavy = () => {
               현장 실사부터<br/>견적까지 무료입니다.
             </h2>
             <p style={{ fontSize: 16, lineHeight: 1.7, color: '#cfd8e3', marginBottom: 40 }}>
-              간단한 정보만 남겨주시면 영업일 기준 24시간 안에 담당자가 직접 연락드립니다.
+              간단한 정보만 남겨주시면 영업시간 내 담당자가 직접 연락드립니다.
             </p>
             <div style={{ display: 'grid', gap: 20 }}>
               {[
-                { l: '대표 전화', v: '1588-0000', sub: '평일 08:00 – 19:00' },
-                { l: '카카오톡', v: '@bbosongck', sub: '24시간 메시지 가능' },
-                { l: '이메일', v: 'info@bbosongck.com', sub: '도면·사진 첨부 가능' },
-                { l: '본사', v: '경기 광명시 OO로 OO', sub: '서울·경기·인천 출장' },
+                { l: '대표 전화', v: '010-8018-0701', sub: '월~토 09:00 – 19:00' },
+                { l: '카카오톡', v: '뽀송코킹', sub: '메시지 남겨주세요' },
+                { l: '이메일', v: 'lywgogo2@naver.com', sub: '도면·사진 첨부 가능' },
+                { l: '본사', v: '경기 광명시 하안로 320', sub: '일정 확인 후 방문' },
               ].map((c, i) => (
                 <div key={i} style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 24, paddingBottom: 20, borderBottom: i < 3 ? `1px solid ${C.line}` : 'none' }}>
                   <div style={{ fontSize: 12, color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Inter',sans-serif", paddingTop: 4 }}>{c.l}</div>
@@ -399,28 +450,41 @@ const VariantANavy = () => {
           </div>
           <div style={{ background: C.navyDeep, border: `1px solid ${C.line}`, borderRadius: 8, padding: 48 }}>
             {!submitted ? (
-              <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
+              <form onSubmit={handleSubmit}>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
-                  <Field label="성함" placeholder="홍길동" req C={C} />
-                  <Field label="연락처" placeholder="010-0000-0000" req C={C} />
+                  <Field label="성함" name="name" placeholder="홍길동" req C={C} />
+                  <Field label="연락처" name="phone" placeholder="010-0000-0000" req C={C} />
                 </div>
                 <div style={{ marginBottom: 20 }}>
-                  <Field label="현장 주소" placeholder="시·구·동까지 입력" C={C} />
+                  <Field label="현장 주소" name="address" placeholder="시·구·동까지 입력" C={C} />
                 </div>
                 <div style={{ marginBottom: 20 }}>
-                  <div style={{ fontSize: 12, color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Inter',sans-serif", marginBottom: 10 }}>의뢰 항목</div>
+                  <div style={{ fontSize: 12, color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Inter',sans-serif", marginBottom: 10 }}>의뢰 항목 (복수 선택 가능)</div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                    {['외벽 코킹', '누수 보수', '창호 실링', '발수제', '판넬', '기타'].map((t, i) => (
-                      <button key={i} type="button" style={{ padding: '8px 14px', background: 'transparent', border: `1px solid ${C.line}`, color: '#fff', fontSize: 13, borderRadius: 100, cursor: 'pointer' }}>{t}</button>
-                    ))}
+                    {['외벽 코킹', '누수 보수', '창호 실링', '발수제', '판넬', '기타'].map((t) => {
+                      const sel = selectedItems.includes(t);
+                      return (
+                        <button key={t} type="button" onClick={() => toggleItem(t)} style={{
+                          padding: '8px 14px',
+                          background: sel ? C.gold : 'transparent',
+                          border: `1px solid ${sel ? C.gold : C.line}`,
+                          color: sel ? C.navyDeep : '#fff',
+                          fontSize: 13,
+                          fontWeight: sel ? 700 : 400,
+                          borderRadius: 100,
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease',
+                        }}>{t}</button>
+                      );
+                    })}
                   </div>
                 </div>
                 <div style={{ marginBottom: 28 }}>
                   <div style={{ fontSize: 12, color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Inter',sans-serif", marginBottom: 10 }}>요청 사항</div>
-                  <textarea placeholder="건물 종류, 층수, 시공 희망 시기 등을 적어주세요." style={{ width: '100%', minHeight: 120, background: 'rgba(255,255,255,0.04)', border: `1px solid ${C.line}`, color: '#fff', padding: 14, fontSize: 14, fontFamily: 'inherit', borderRadius: 4, resize: 'vertical', outline: 'none' }} />
+                  <textarea name="detail" placeholder="건물 종류, 층수, 시공 희망 시기 등을 적어주세요." style={{ width: '100%', minHeight: 120, background: 'rgba(255,255,255,0.04)', border: `1px solid ${C.line}`, color: '#fff', padding: 14, fontSize: 14, fontFamily: 'inherit', borderRadius: 4, resize: 'vertical', outline: 'none' }} />
                 </div>
                 <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: 13, color: C.muted, marginBottom: 24, cursor: 'pointer' }}>
-                  <input type="checkbox" defaultChecked style={{ marginTop: 3 }} />
+                  <input type="checkbox" defaultChecked required style={{ marginTop: 3 }} />
                   <span>개인정보 수집·이용에 동의합니다. (견적 회신 외 용도로 사용되지 않습니다)</span>
                 </label>
                 <button type="submit" style={{ width: '100%', padding: 18, background: C.gold, color: C.navyDeep, fontSize: 15, fontWeight: 700, border: 'none', borderRadius: 4, cursor: 'pointer', fontFamily: 'inherit' }}>
@@ -428,10 +492,35 @@ const VariantANavy = () => {
                 </button>
               </form>
             ) : (
-              <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-                <div style={{ width: 64, height: 64, borderRadius: '50%', background: C.gold, color: C.navyDeep, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, fontWeight: 700, marginBottom: 24 }}>✓</div>
-                <h3 style={{ fontSize: 24, fontWeight: 700, marginBottom: 12 }}>접수가 완료되었습니다.</h3>
-                <p style={{ color: C.muted, lineHeight: 1.7 }}>영업일 기준 24시간 안에<br/>담당자가 직접 연락드립니다.</p>
+              <div style={{ padding: '20px 0' }}>
+                <div style={{ textAlign: 'center', marginBottom: 28 }}>
+                  <div style={{ width: 56, height: 56, borderRadius: '50%', background: C.gold, color: C.navyDeep, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, fontWeight: 700, marginBottom: 16 }}>✓</div>
+                  <h3 style={{ fontSize: 22, fontWeight: 700, color: '#fff', margin: '0 0 8px' }}>견적 내용이 정리되었습니다</h3>
+                  <p style={{ color: C.muted, fontSize: 14, lineHeight: 1.6, margin: 0 }}>아래 두 가지 방법 중 편하신 방법으로 보내주세요.<br/>사진은 카카오톡 채팅창에 직접 첨부해주시면 됩니다.</p>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${C.line}`, padding: 20, borderRadius: 6, marginBottom: 20, whiteSpace: 'pre-line', fontSize: 13, color: '#cfd8e3', lineHeight: 1.7, fontFamily: "'Pretendard', sans-serif" }}>
+                  {generatedMessage}
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
+                  <button onClick={handleKakao} style={{ padding: '16px 0', background: '#FEE500', color: '#3C1E1E', fontSize: 15, fontWeight: 700, border: 'none', borderRadius: 6, cursor: 'pointer', fontFamily: 'inherit' }}>
+                    카카오톡으로 보내기
+                  </button>
+                  <button onClick={handleSMS} style={{ padding: '16px 0', background: '#fff', color: C.navyDeep, fontSize: 15, fontWeight: 700, border: 'none', borderRadius: 6, cursor: 'pointer', fontFamily: 'inherit' }}>
+                    문자로 보내기
+                  </button>
+                </div>
+                {copied && (
+                  <div style={{ textAlign: 'center', fontSize: 13, color: C.gold, marginBottom: 12 }}>
+                    ✓ 내용이 복사되었습니다. 카카오톡 채팅창에 붙여넣어 주세요.
+                  </div>
+                )}
+                <p style={{ fontSize: 12, color: C.muted, lineHeight: 1.7, textAlign: 'center', margin: 0 }}>
+                  카카오톡 — 내용 자동 복사 후 채널 채팅창 열림<br/>
+                  문자 — 메시지 앱에 내용이 자동 입력됨 (모바일에서 권장)
+                </p>
+                <button onClick={resetForm} style={{ marginTop: 20, width: '100%', padding: '12px 0', background: 'transparent', color: C.muted, fontSize: 13, border: `1px solid ${C.line}`, borderRadius: 4, cursor: 'pointer', fontFamily: 'inherit' }}>
+                  ← 다시 작성하기
+                </button>
               </div>
             )}
           </div>
@@ -453,7 +542,7 @@ const VariantANavy = () => {
           {[
             { t: '서비스', items: ['외벽 코킹', '누수 보수', '창호 실링', '발수제 시공'] },
             { t: '회사', items: ['회사 소개', '시공 사례', '공지사항', '채용'] },
-            { t: '문의', items: ['1588-0000', 'KAKAO @bbosongck', 'info@bbosongck.com'] },
+            { t: '문의', items: ['010-8018-0701', 'KAKAO 뽀송코킹', 'lywgogo2@naver.com'] },
           ].map((col, i) => (
             <div key={i}>
               <div style={{ fontSize: 12, color: '#fff', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 16 }}>{col.t}</div>
@@ -464,20 +553,20 @@ const VariantANavy = () => {
           ))}
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12 }}>
-          <div>© 2024 뽀송코킹 · 대표 이용우 · 사업자등록 OOO-OO-OOOOO</div>
-          <div style={{ fontFamily: "'Space Grotesk',sans-serif", letterSpacing: '0.1em' }}>BBOSONG CAULKING — EST. 2009</div>
+          <div>© 2024 뽀송코킹 · 대표 이용우 · 사업자등록 612-28-77927</div>
+          <div style={{ fontFamily: "'Space Grotesk',sans-serif", letterSpacing: '0.1em' }}>BBOSONG CAULKING — EST. 2000s</div>
         </div>
       </footer>
     </div>
   );
 };
 
-const Field = ({ label, placeholder, req, C }) => (
+const Field = ({ label, placeholder, name, req, C }) => (
   <div>
     <div style={{ fontSize: 12, color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Inter',sans-serif", marginBottom: 10 }}>
       {label} {req && <span style={{ color: C.gold }}>*</span>}
     </div>
-    <input placeholder={placeholder} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${C.line}`, color: '#fff', padding: '12px 14px', fontSize: 14, fontFamily: 'inherit', borderRadius: 4, outline: 'none' }} />
+    <input name={name} placeholder={placeholder} required={req} style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: `1px solid ${C.line}`, color: '#fff', padding: '12px 14px', fontSize: 14, fontFamily: 'inherit', borderRadius: 4, outline: 'none' }} />
   </div>
 );
 
