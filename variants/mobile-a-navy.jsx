@@ -328,7 +328,7 @@ const MobileANavy = () => {
       <a href="tel:01012345678" style={{ padding: '16px 0', background: C.navyDeep, color: '#fff', borderRadius: 100, fontSize: 16, fontWeight: 800, textAlign: 'center', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, boxShadow: '0 6px 18px rgba(9,27,45,0.35)' }}>
         <span style={{ fontSize: 18 }}>📞</span> 전화 상담
       </a>
-      <a style={{ padding: '16px 0', background: '#FEE500', color: '#3C1E1E', borderRadius: 100, fontSize: 16, fontWeight: 800, textAlign: 'center', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, boxShadow: '0 6px 18px rgba(254,229,0,0.45)' }}>
+      <a href={`http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`} target="_blank" rel="noopener noreferrer" style={{ padding: '16px 0', background: '#FEE500', color: '#3C1E1E', borderRadius: 100, fontSize: 16, fontWeight: 800, textAlign: 'center', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, boxShadow: '0 6px 18px rgba(254,229,0,0.45)', textDecoration: 'none' }}>
         <span style={{ fontSize: 18 }}>💬</span> 카톡 문의
       </a>
     </div>
