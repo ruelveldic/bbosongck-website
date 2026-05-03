@@ -69,7 +69,7 @@ const VariantANavy = () => {
       </div>
 
       {/* NAV */}
-      <header style={{ background: C.navy, color: '#fff', padding: '20px 56px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `1px solid ${C.line}` }}>
+      <header style={{ position: 'sticky', top: 0, zIndex: 50, background: C.navy, color: '#fff', padding: '16px 56px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `1px solid ${C.line}`, boxShadow: '0 4px 16px rgba(9,27,45,0.15)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <div style={{ width: 38, height: 38, background: C.gold, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.navyDeep, fontWeight: 800, fontFamily: "'Space Grotesk',sans-serif", fontSize: 20 }}>B</div>
           <div>
@@ -78,18 +78,25 @@ const VariantANavy = () => {
           </div>
         </div>
         <nav style={{ display: 'flex', gap: 32, fontSize: 15, fontWeight: 500 }}>
-          {['회사소개', '서비스', '시공과정', '시공사례', '고객후기', '문의'].map((m, i) => (
-            <a key={i} style={{ color: '#fff', textDecoration: 'none', opacity: i === 0 ? 1 : 0.78, cursor: 'pointer' }}>{m}</a>
+          {[
+            { label: '회사소개', id: 'about' },
+            { label: '서비스', id: 'services' },
+            { label: '시공과정', id: 'process' },
+            { label: '시공사례', id: 'portfolio' },
+            { label: '고객후기', id: 'testimonials' },
+            { label: '문의', id: 'contact' },
+          ].map((m, i) => (
+            <a key={i} href={`#${m.id}`} style={{ color: '#fff', textDecoration: 'none', opacity: 0.78, cursor: 'pointer', transition: 'opacity 0.15s' }} onMouseEnter={(e) => e.currentTarget.style.opacity = 1} onMouseLeave={(e) => e.currentTarget.style.opacity = 0.78}>{m.label}</a>
           ))}
         </nav>
         <div style={{ display: 'flex', gap: 10 }}>
-          <a style={{ padding: '10px 18px', border: `1px solid ${C.line}`, color: '#fff', fontSize: 13, fontWeight: 500, borderRadius: 4, cursor: 'pointer' }}>1588-0000</a>
-          <a style={{ padding: '10px 20px', background: C.gold, color: C.navyDeep, fontSize: 13, fontWeight: 700, borderRadius: 4, cursor: 'pointer' }}>무료 견적 →</a>
+          <a href="tel:01012345678" style={{ padding: '10px 18px', border: `1px solid ${C.line}`, color: '#fff', fontSize: 13, fontWeight: 500, borderRadius: 4, cursor: 'pointer', textDecoration: 'none' }}>1588-0000</a>
+          <a href="#contact" style={{ padding: '10px 20px', background: C.gold, color: C.navyDeep, fontSize: 13, fontWeight: 700, borderRadius: 4, cursor: 'pointer', textDecoration: 'none' }}>무료 견적 →</a>
         </div>
       </header>
 
       {/* HERO */}
-      <section style={{ background: `linear-gradient(180deg, ${C.navy} 0%, ${C.navyDeep} 100%)`, color: '#fff', padding: '80px 56px 120px', position: 'relative', overflow: 'hidden' }}>
+      <section id="home" style={{ background: `linear-gradient(180deg, ${C.navy} 0%, ${C.navyDeep} 100%)`, color: '#fff', padding: '80px 56px 120px', position: 'relative', overflow: 'hidden', scrollMarginTop: 90 }}>
         {/* decorative grid */}
         <div style={{ position: 'absolute', inset: 0, opacity: 0.08, backgroundImage: `linear-gradient(${C.gold} 1px, transparent 1px), linear-gradient(90deg, ${C.gold} 1px, transparent 1px)`, backgroundSize: '64px 64px' }} />
         <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: '1.15fr 1fr', gap: 60, alignItems: 'center' }}>
@@ -106,10 +113,10 @@ const VariantANavy = () => {
               외벽 실리콘 코킹은 단열·방수·미관을 동시에 결정하는 마감입니다. 뽀송코킹은 아파트·빌딩·상가의 외벽 실링을 15년간 직접 시공해 온 전문 팀입니다.
             </p>
             <div style={{ display: 'flex', gap: 12, marginBottom: 56 }}>
-              <a style={{ padding: '18px 28px', background: C.gold, color: C.navyDeep, fontSize: 15, fontWeight: 700, borderRadius: 4, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <a href="#contact" style={{ padding: '18px 28px', background: C.gold, color: C.navyDeep, fontSize: 15, fontWeight: 700, borderRadius: 4, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
                 무료 현장 실사 신청 <span>→</span>
               </a>
-              <a style={{ padding: '18px 28px', background: 'transparent', border: `1px solid ${C.line}`, color: '#fff', fontSize: 15, fontWeight: 500, borderRadius: 4, cursor: 'pointer' }}>
+              <a href="#portfolio" style={{ padding: '18px 28px', background: 'transparent', border: `1px solid ${C.line}`, color: '#fff', fontSize: 15, fontWeight: 500, borderRadius: 4, cursor: 'pointer', textDecoration: 'none' }}>
                 시공 사례 보기
               </a>
             </div>
@@ -165,7 +172,7 @@ const VariantANavy = () => {
       </section>
 
       {/* ABOUT */}
-      <section style={{ padding: '120px 56px', background: C.paper }}>
+      <section id="about" style={{ padding: '120px 56px', background: C.paper, scrollMarginTop: 90 }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 80 }}>
           <div>
             <div style={{ fontSize: 12, color: C.gold, fontWeight: 700, letterSpacing: '0.18em', fontFamily: "'Inter',sans-serif", marginBottom: 20 }}>— ABOUT US</div>
@@ -200,7 +207,7 @@ const VariantANavy = () => {
       </section>
 
       {/* SERVICES */}
-      <section style={{ padding: '120px 56px', background: C.navy, color: '#fff' }}>
+      <section id="services" style={{ padding: '120px 56px', background: C.navy, color: '#fff', scrollMarginTop: 90 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 60 }}>
           <div>
             <div style={{ fontSize: 12, color: C.gold, fontWeight: 700, letterSpacing: '0.18em', fontFamily: "'Inter',sans-serif", marginBottom: 16 }}>— SERVICES 01 / 06</div>
@@ -254,7 +261,7 @@ const VariantANavy = () => {
       </section>
 
       {/* PROCESS */}
-      <section style={{ padding: '120px 56px', background: C.paper }}>
+      <section id="process" style={{ padding: '120px 56px', background: C.paper, scrollMarginTop: 90 }}>
         <div style={{ marginBottom: 60 }}>
           <div style={{ fontSize: 12, color: C.gold, fontWeight: 700, letterSpacing: '0.18em', fontFamily: "'Inter',sans-serif", marginBottom: 16 }}>— PROCESS</div>
           <h2 style={{ fontSize: 48, fontWeight: 800, lineHeight: 1.15, margin: 0, letterSpacing: '-0.03em', color: C.navyDeep }}>
@@ -274,7 +281,7 @@ const VariantANavy = () => {
       </section>
 
       {/* PORTFOLIO */}
-      <section style={{ padding: '120px 56px', background: '#fff' }}>
+      <section id="portfolio" style={{ padding: '120px 56px', background: '#fff', scrollMarginTop: 90 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 56 }}>
           <div>
             <div style={{ fontSize: 12, color: C.gold, fontWeight: 700, letterSpacing: '0.18em', fontFamily: "'Inter',sans-serif", marginBottom: 16 }}>— PORTFOLIO</div>
@@ -304,7 +311,7 @@ const VariantANavy = () => {
       </section>
 
       {/* REVIEWS */}
-      <section style={{ padding: '120px 56px', background: C.cream }}>
+      <section id="testimonials" style={{ padding: '120px 56px', background: C.cream, scrollMarginTop: 90 }}>
         <div style={{ marginBottom: 56 }}>
           <div style={{ fontSize: 12, color: C.gold, fontWeight: 700, letterSpacing: '0.18em', fontFamily: "'Inter',sans-serif", marginBottom: 16 }}>— TESTIMONIALS</div>
           <h2 style={{ fontSize: 48, fontWeight: 800, lineHeight: 1.15, margin: 0, letterSpacing: '-0.03em', color: C.navyDeep }}>
@@ -363,7 +370,7 @@ const VariantANavy = () => {
       </section>
 
       {/* CONTACT FORM */}
-      <section style={{ padding: '120px 56px', background: C.navy, color: '#fff' }}>
+      <section id="contact" style={{ padding: '120px 56px', background: C.navy, color: '#fff', scrollMarginTop: 90 }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 80 }}>
           <div>
             <div style={{ fontSize: 12, color: C.gold, fontWeight: 700, letterSpacing: '0.18em', fontFamily: "'Inter',sans-serif", marginBottom: 16 }}>— GET A QUOTE</div>
