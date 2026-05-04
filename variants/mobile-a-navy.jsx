@@ -16,7 +16,7 @@ const MobileANavy = () => {
         setCopiedField(key);
         setTimeout(() => setCopiedField(null), 2000);
       });
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const toggleItem = (item) => {
@@ -44,12 +44,12 @@ const MobileANavy = () => {
       await navigator.clipboard.writeText(generatedMessage);
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
-    } catch (e) {}
+    } catch (e) { }
     window.open(`http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`, '_blank');
   };
 
   const handleSMS = () => {
-    try { navigator.clipboard.writeText(generatedMessage); } catch (e) {}
+    try { navigator.clipboard.writeText(generatedMessage); } catch (e) { }
     const body = encodeURIComponent(generatedMessage);
     window.location.href = `sms:01080180701?body=${body}`;
   };
@@ -101,13 +101,13 @@ const MobileANavy = () => {
           </div>
           <h1 style={{ fontSize: 36, fontWeight: 800, lineHeight: 1.2, margin: '0 0 18px', letterSpacing: '-0.03em' }}>
             건물의 한 줄 실리콘이<br />
-            <span style={{ color: C.gold }}>10년의 차이</span>를<br/>만듭니다.
+            <span style={{ color: C.gold }}>10년의 차이</span>를<br />만듭니다.
           </h1>
           <p style={{ fontSize: 17, lineHeight: 1.7, color: '#d8dfe8', margin: '0 0 24px' }}>
-            아파트·빌딩·상가 외벽 실링 전문.<br/>견적·자재·시공·A/S 모두 자체 인력으로 진행합니다.
+            아파트·빌딩·상가 외벽 실링 전문.<br />견적·자재·시공·A/S 모두 자체 인력으로 진행합니다.
           </p>
           <button onClick={() => setTab('quote')} style={{ width: '100%', padding: '20px', background: C.gold, color: C.navyDeep, fontSize: 18, fontWeight: 800, border: 'none', borderRadius: 8, cursor: 'pointer', letterSpacing: '-0.01em' }}>
-            무료 현장 실사 신청  →
+            현장 실사 신청  →
           </button>
         </div>
       </div>
@@ -165,7 +165,7 @@ const MobileANavy = () => {
       <div style={{ background: C.paper, padding: '36px 20px' }}>
         <div style={{ fontSize: 14, color: C.gold, fontWeight: 800, letterSpacing: '0.1em', marginBottom: 10 }}>— 시공 분야</div>
         <h2 style={{ fontSize: 28, fontWeight: 800, color: C.navyDeep, margin: '0 0 22px', letterSpacing: '-0.03em', lineHeight: 1.25 }}>
-          한 분야만 깊게,<br/>25년 외벽 실링.
+          한 분야만 깊게,<br />25년 외벽 실링.
         </h2>
         <div style={{ display: 'grid', gap: 12 }}>
           {services.map((s, i) => (
@@ -186,7 +186,7 @@ const MobileANavy = () => {
       <div style={{ background: C.navyDeep, color: '#fff', padding: '36px 20px' }}>
         <div style={{ fontSize: 14, color: C.gold, fontWeight: 800, letterSpacing: '0.1em', marginBottom: 10 }}>— 시공 과정</div>
         <h2 style={{ fontSize: 28, fontWeight: 800, margin: '0 0 22px', letterSpacing: '-0.03em', lineHeight: 1.25 }}>
-          상담부터 A/S까지<br/>4단계로 명확하게.
+          상담부터 A/S까지<br />4단계로 명확하게.
         </h2>
         <div style={{ display: 'grid', gap: 12 }}>
           {[
@@ -230,7 +230,7 @@ const MobileANavy = () => {
       {/* CTA QUOTE TEASER */}
       <div style={{ background: C.gold, padding: '36px 22px', textAlign: 'center' }}>
         <h3 style={{ fontSize: 26, fontWeight: 800, color: C.navyDeep, margin: '0 0 12px', letterSpacing: '-0.03em', lineHeight: 1.25 }}>지금 견적 받아보세요</h3>
-        <p style={{ fontSize: 16, color: C.navyDeep, opacity: 0.85, margin: '0 0 22px', lineHeight: 1.6, fontWeight: 500 }}>주소·문제 사항만 알려주시면<br/>영업시간 내 회신드립니다.</p>
+        <p style={{ fontSize: 16, color: C.navyDeep, opacity: 0.85, margin: '0 0 22px', lineHeight: 1.6, fontWeight: 500 }}>주소·문제 사항만 알려주시면<br />영업시간 내 회신드립니다.</p>
         <button onClick={() => setTab('quote')} style={{ width: '100%', padding: '20px', background: C.navyDeep, color: '#fff', fontSize: 18, fontWeight: 800, border: 'none', borderRadius: 8, cursor: 'pointer', letterSpacing: '-0.01em' }}>
           견적 요청하기 →
         </button>
@@ -436,7 +436,7 @@ const MobileQuoteSection = ({ C, submitted, generatedMessage, copied, selectedIt
           <div style={{ width: 64, height: 64, margin: '0 auto 18px', borderRadius: '50%', background: C.gold, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 32, fontWeight: 800, color: C.navyDeep }}>✓</div>
           <h2 style={{ fontSize: 24, fontWeight: 800, color: C.navyDeep, margin: '0 0 10px', letterSpacing: '-0.03em' }}>견적 내용이 정리되었습니다</h2>
           <p style={{ fontSize: 15, color: C.muted, lineHeight: 1.6, margin: 0 }}>
-            아래 두 가지 방법 중 편하신 방법으로<br/>전송해주세요. 사진은 채팅창에 직접 첨부해주세요.
+            아래 두 가지 방법 중 편하신 방법으로<br />전송해주세요. 사진은 채팅창에 직접 첨부해주세요.
           </p>
         </div>
         <div style={{ background: '#fff', border: `1px solid ${C.line}`, padding: 18, borderRadius: 10, marginBottom: 20, whiteSpace: 'pre-line', fontSize: 15, color: C.navyDeep, lineHeight: 1.7 }}>
@@ -456,7 +456,7 @@ const MobileQuoteSection = ({ C, submitted, generatedMessage, copied, selectedIt
           </div>
         )}
         <p style={{ fontSize: 13, color: C.muted, lineHeight: 1.7, textAlign: 'center', margin: '0 0 24px' }}>
-          카카오톡 — 내용 자동 복사 후 채널 채팅창 열림<br/>
+          카카오톡 — 내용 자동 복사 후 채널 채팅창 열림<br />
           문자 — 메시지 앱에 내용 자동 입력
         </p>
         <button onClick={resetQuote} style={{ width: '100%', padding: '14px 0', background: 'transparent', color: C.muted, fontSize: 14, border: `1px solid ${C.line}`, borderRadius: 8, cursor: 'pointer', marginBottom: 12 }}>
@@ -474,7 +474,7 @@ const MobileQuoteSection = ({ C, submitted, generatedMessage, copied, selectedIt
       <div style={{ background: C.navyDeep, color: '#fff', padding: '28px 22px 24px' }}>
         <div style={{ fontSize: 14, color: C.gold, fontWeight: 800, letterSpacing: '0.1em', marginBottom: 8 }}>— 견적 요청</div>
         <h1 style={{ fontSize: 32, fontWeight: 800, margin: 0, letterSpacing: '-0.03em' }}>견적 요청</h1>
-        <p style={{ fontSize: 15, color: '#d8dfe8', margin: '10px 0 0', lineHeight: 1.6 }}>접수하시면 카톡·문자로<br/>영업시간 내 회신드립니다.</p>
+        <p style={{ fontSize: 15, color: '#d8dfe8', margin: '10px 0 0', lineHeight: 1.6 }}>접수하시면 카톡·문자로<br />영업시간 내 회신드립니다.</p>
       </div>
       <MobileQuoteForm
         C={C}
@@ -548,7 +548,7 @@ const MobileQuoteForm = ({ C, selectedItems, onToggleItem, onSubmit }) => {
         견적 요청 보내기 →
       </button>
       <div style={{ fontSize: 14, color: C.muted, lineHeight: 1.7, padding: '14px 16px', background: '#fff', borderRadius: 8, border: `1px solid ${C.line}`, textAlign: 'center' }}>
-        📷 사진은 카톡 / 문자 채팅창에서 직접 첨부해주세요.<br/>
+        📷 사진은 카톡 / 문자 채팅창에서 직접 첨부해주세요.<br />
         또는 <a href={`http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`} target="_blank" rel="noopener noreferrer" style={{ color: C.navyDeep, fontWeight: 800, textDecoration: 'none' }}>카카오톡 채널 @뽀송코킹</a>으로 바로 문의 주셔도 됩니다.
       </div>
     </form>

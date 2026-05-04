@@ -14,7 +14,7 @@ const VariantANavy = () => {
         setCopiedField(key);
         setTimeout(() => setCopiedField(null), 2000);
       });
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const toggleItem = (item) => {
@@ -44,12 +44,12 @@ const VariantANavy = () => {
       await navigator.clipboard.writeText(generatedMessage);
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
-    } catch (e) {}
+    } catch (e) { }
     window.open(`http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`, '_blank');
   };
 
   const handleSMS = () => {
-    try { navigator.clipboard.writeText(generatedMessage); } catch (e) {}
+    try { navigator.clipboard.writeText(generatedMessage); } catch (e) { }
     const body = encodeURIComponent(generatedMessage);
     window.location.href = `sms:01080180701?body=${body}`;
   };
@@ -70,7 +70,7 @@ const VariantANavy = () => {
 
   const services = [
     { ko: '외벽 실리콘 코킹', en: 'Exterior Caulking', desc: '아파트·빌딩 외벽 실리콘 재시공으로 누수와 결로를 차단합니다.', spec: '내후성 실리콘 / 보증 2년', img: 'assets/apartment.png', link: 'https://blog.naver.com/goomiz/224001584150' },
-    { ko: '건물 누수 보수', en: 'Leak Repair', desc: '누수 원인 진단부터 부위별 정밀 보수까지 한 팀이 책임집니다.', spec: '현장 진단 무료', img: 'assets/repair.jpg', link: 'https://blog.naver.com/goomiz/224225801665' },
+    { ko: '건물 누수 보수', en: 'Leak Repair', desc: '누수 원인 진단부터 부위별 정밀 보수까지 한 팀이 책임집니다.', spec: '정밀 현장 진단', img: 'assets/repair.jpg', link: 'https://blog.naver.com/goomiz/224225801665' },
     { ko: '창호·유리 코킹', en: 'Window Sealing', desc: '창호 주변 실링 재시공으로 단열·방음 성능을 회복합니다.', spec: '24시간 경화', img: 'assets/glass.png', link: 'https://blog.naver.com/goomiz/224079592605' },
     { ko: '판넬·접합부 코킹', en: 'Panel Joint', desc: '샌드위치 판넬·금속 외장재 접합부 누수 차단 시공.', spec: '내한성 자재', img: 'assets/panel.png', link: 'https://blog.naver.com/goomiz/223948085801' },
     { ko: '외벽 발수제', en: 'Water Repellent', desc: '석재·콘크리트 외벽 표면 발수 코팅으로 수명을 연장합니다.', spec: '재시공 주기 7년', img: 'assets/repellent.png', link: 'https://blog.naver.com/goomiz/224231519405' },
@@ -160,7 +160,7 @@ const VariantANavy = () => {
               SINCE 2000s · 누적 시공 1,200건+
             </div>
             <h1 style={{ fontSize: 72, fontWeight: 800, lineHeight: 1.05, margin: '0 0 28px', letterSpacing: '-0.035em' }}>
-              건물의 한 줄 실리콘이<br/>
+              건물의 한 줄 실리콘이<br />
               <span style={{ color: C.gold }}>10년의 차이</span>를 만듭니다.
             </h1>
             <p style={{ fontSize: 18, lineHeight: 1.7, color: '#cfd8e3', maxWidth: 520, margin: '0 0 40px', fontWeight: 400 }}>
@@ -168,7 +168,7 @@ const VariantANavy = () => {
             </p>
             <div style={{ display: 'flex', gap: 12, marginBottom: 56 }}>
               <a href="#contact" style={{ padding: '18px 28px', background: C.gold, color: C.navyDeep, fontSize: 15, fontWeight: 700, borderRadius: 4, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-                무료 현장 실사 신청 <span>→</span>
+                현장 실사 신청 <span>→</span>
               </a>
               <a href="#portfolio" style={{ padding: '18px 28px', background: 'transparent', border: `1px solid ${C.line}`, color: '#fff', fontSize: 15, fontWeight: 500, borderRadius: 4, cursor: 'pointer', textDecoration: 'none' }}>
                 시공 사례 보기
@@ -256,7 +256,7 @@ const VariantANavy = () => {
           <div>
             <div style={{ fontSize: 12, color: C.gold, fontWeight: 700, letterSpacing: '0.18em', fontFamily: "'Inter',sans-serif", marginBottom: 20 }}>— ABOUT US</div>
             <h2 style={{ fontSize: 48, fontWeight: 800, lineHeight: 1.15, margin: '0 0 28px', letterSpacing: '-0.03em', color: C.navyDeep }}>
-              한 번 시공하면<br/>10년이 가야 합니다.
+              한 번 시공하면<br />10년이 가야 합니다.
             </h2>
             <p style={{ fontSize: 16, lineHeight: 1.8, color: '#5a5447', margin: 0 }}>
               뽀송코킹은 2000년대 초부터 외벽 실링 한 가지 분야에 집중해 온 전문 시공팀입니다. 견적, 자재, 시공, A/S 모든 단계를 자체 인력으로 직접 처리하기 때문에, 가격은 합리적이고 책임은 명확합니다.
@@ -291,7 +291,7 @@ const VariantANavy = () => {
           <div>
             <div style={{ fontSize: 12, color: C.gold, fontWeight: 700, letterSpacing: '0.18em', fontFamily: "'Inter',sans-serif", marginBottom: 16 }}>— SERVICES 01 / 06</div>
             <h2 style={{ fontSize: 48, fontWeight: 800, lineHeight: 1.15, margin: 0, letterSpacing: '-0.03em' }}>
-              외벽이 마주하는<br/>모든 문제를 다룹니다.
+              외벽이 마주하는<br />모든 문제를 다룹니다.
             </h2>
           </div>
           <div style={{ fontSize: 14, color: '#cfd8e3', maxWidth: 320, lineHeight: 1.7 }}>
@@ -313,7 +313,7 @@ const VariantANavy = () => {
                 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
-                    <div style={{ fontSize: 11, color: C.muted, fontFamily: "'Space Grotesk',sans-serif", letterSpacing: '0.1em', marginBottom: 4 }}>0{i+1}</div>
+                    <div style={{ fontSize: 11, color: C.muted, fontFamily: "'Space Grotesk',sans-serif", letterSpacing: '0.1em', marginBottom: 4 }}>0{i + 1}</div>
                     <div style={{ fontSize: 17, fontWeight: 600, color: '#fff' }}>{s.ko}</div>
                   </div>
                   <span style={{ color: activeService === i ? C.gold : C.muted, fontSize: 18 }}>→</span>
@@ -427,10 +427,10 @@ const VariantANavy = () => {
           <div>
             <div style={{ fontSize: 12, color: C.gold, fontWeight: 700, letterSpacing: '0.18em', fontFamily: "'Inter',sans-serif", marginBottom: 16 }}>— FAQ</div>
             <h2 style={{ fontSize: 44, fontWeight: 800, lineHeight: 1.15, margin: 0, letterSpacing: '-0.03em', color: C.navyDeep }}>
-              자주 묻는<br/>질문
+              자주 묻는<br />질문
             </h2>
             <p style={{ fontSize: 15, lineHeight: 1.7, color: '#5a5447', marginTop: 24 }}>
-              궁금한 점이 더 있다면<br/>편하게 전화 또는 카카오로 문의 주세요.
+              궁금한 점이 더 있다면<br />편하게 전화 또는 카카오로 문의 주세요.
             </p>
           </div>
           <div>
@@ -438,7 +438,7 @@ const VariantANavy = () => {
               <div key={i} style={{ borderBottom: '1px solid #d8d0c0' }}>
                 <div onClick={() => setOpenFaq(openFaq === i ? -1 : i)} style={{ padding: '24px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}>
                   <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-                    <span style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 13, color: C.gold, fontWeight: 600 }}>Q.0{i+1}</span>
+                    <span style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 13, color: C.gold, fontWeight: 600 }}>Q.0{i + 1}</span>
                     <span style={{ fontSize: 18, fontWeight: 600, color: C.navyDeep, letterSpacing: '-0.01em' }}>{f.q}</span>
                   </div>
                   <span style={{ fontSize: 22, color: C.navy, transform: openFaq === i ? 'rotate(45deg)' : 'rotate(0)', transition: 'transform 0.2s' }}>+</span>
@@ -458,7 +458,7 @@ const VariantANavy = () => {
           <div>
             <div style={{ fontSize: 12, color: C.gold, fontWeight: 700, letterSpacing: '0.18em', fontFamily: "'Inter',sans-serif", marginBottom: 16 }}>— GET A QUOTE</div>
             <h2 style={{ fontSize: 48, fontWeight: 800, lineHeight: 1.15, margin: '0 0 28px', letterSpacing: '-0.03em' }}>
-              현장 실사부터<br/>견적까지 무료입니다.
+              현장 실사부터<br />견적까지 무료입니다.
             </h2>
             <p style={{ fontSize: 16, lineHeight: 1.7, color: '#cfd8e3', marginBottom: 40 }}>
               간단한 정보만 남겨주시면 영업시간 내 담당자가 직접 연락드립니다.
@@ -542,7 +542,7 @@ const VariantANavy = () => {
                 <div style={{ textAlign: 'center', marginBottom: 28 }}>
                   <div style={{ width: 56, height: 56, borderRadius: '50%', background: C.gold, color: C.navyDeep, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 28, fontWeight: 700, marginBottom: 16 }}>✓</div>
                   <h3 style={{ fontSize: 22, fontWeight: 700, color: '#fff', margin: '0 0 8px' }}>견적 내용이 정리되었습니다</h3>
-                  <p style={{ color: C.muted, fontSize: 14, lineHeight: 1.6, margin: 0 }}>아래 두 가지 방법 중 편하신 방법으로 보내주세요.<br/>사진은 카카오톡 채팅창에 직접 첨부해주시면 됩니다.</p>
+                  <p style={{ color: C.muted, fontSize: 14, lineHeight: 1.6, margin: 0 }}>아래 두 가지 방법 중 편하신 방법으로 보내주세요.<br />사진은 카카오톡 채팅창에 직접 첨부해주시면 됩니다.</p>
                 </div>
                 <div style={{ background: 'rgba(255,255,255,0.05)', border: `1px solid ${C.line}`, padding: 20, borderRadius: 6, marginBottom: 20, whiteSpace: 'pre-line', fontSize: 13, color: '#cfd8e3', lineHeight: 1.7, fontFamily: "'Pretendard', sans-serif" }}>
                   {generatedMessage}
@@ -576,27 +576,33 @@ const VariantANavy = () => {
               <div style={{ color: '#fff', fontSize: 16, fontWeight: 700 }}>뽀송코킹</div>
             </div>
             <div style={{ fontSize: 13, lineHeight: 1.8 }}>
-              외벽 실리콘 코킹 전문 시공팀.<br/>아파트·빌딩·상가의 실링과 누수를 책임집니다.
+              외벽 실리콘 코킹 전문 시공팀.<br />아파트·빌딩·상가의 실링과 누수를 책임집니다.
             </div>
           </div>
           {[
-            { t: '서비스', items: [
-              { label: '외벽 코킹', href: '#services' },
-              { label: '누수 보수', href: '#services' },
-              { label: '창호 실링', href: '#services' },
-              { label: '발수제 시공', href: '#services' },
-            ]},
-            { t: '회사', items: [
-              { label: '회사 소개', href: '#about' },
-              { label: '시공 사례', href: '#portfolio' },
-              { label: '진행 과정', href: '#process' },
-              { label: '고객 후기', href: '#testimonials' },
-            ]},
-            { t: '문의', items: [
-              { label: '010-8018-0701', href: 'tel:01080180701' },
-              { label: 'KAKAO 뽀송코킹', href: `http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`, external: true },
-              { label: 'lywgogo2@naver.com', href: 'mailto:lywgogo2@naver.com' },
-            ]},
+            {
+              t: '서비스', items: [
+                { label: '외벽 코킹', href: '#services' },
+                { label: '누수 보수', href: '#services' },
+                { label: '창호 실링', href: '#services' },
+                { label: '발수제 시공', href: '#services' },
+              ]
+            },
+            {
+              t: '회사', items: [
+                { label: '회사 소개', href: '#about' },
+                { label: '시공 사례', href: '#portfolio' },
+                { label: '진행 과정', href: '#process' },
+                { label: '고객 후기', href: '#testimonials' },
+              ]
+            },
+            {
+              t: '문의', items: [
+                { label: '010-8018-0701', href: 'tel:01080180701' },
+                { label: 'KAKAO 뽀송코킹', href: `http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`, external: true },
+                { label: 'lywgogo2@naver.com', href: 'mailto:lywgogo2@naver.com' },
+              ]
+            },
           ].map((col, i) => (
             <div key={i}>
               <div style={{ fontSize: 12, color: '#fff', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 16 }}>{col.t}</div>
