@@ -74,19 +74,19 @@ const MobileANavy = () => {
   const SAFE_BOTTOM = 'max(env(safe-area-inset-bottom, 0px), 0px)';
 
   const services = [
-    { ko: '외벽 실리콘 코킹', desc: '아파트·빌딩 외벽 재시공', img: 'assets/apartment.png' },
-    { ko: '건물 누수 보수', desc: '원인 진단부터 정밀 보수', img: 'assets/crack.png' },
-    { ko: '창호·유리 코킹', desc: '단열·방음 성능 회복', img: 'assets/glass.png' },
-    { ko: '판넬·접합부 코킹', desc: '판넬 접합부 누수 차단', img: 'assets/panel.png' },
-    { ko: '외벽 발수제', desc: '석재·콘크리트 표면 코팅', img: 'assets/repellent.png' },
-    { ko: '에어컨 배관 코킹', desc: '에어컨 배관 누수 처리', img: 'assets/ac.png' },
+    { ko: '외벽 실리콘 코킹', desc: '아파트·빌딩 외벽 재시공', img: 'assets/apartment.png', link: 'https://blog.naver.com/goomiz/224001584150' },
+    { ko: '건물 누수 보수', desc: '원인 진단부터 정밀 보수', img: 'assets/repair.jpg', link: 'https://blog.naver.com/goomiz/224225801665' },
+    { ko: '창호·유리 코킹', desc: '단열·방음 성능 회복', img: 'assets/glass.png', link: 'https://blog.naver.com/goomiz/224079592605' },
+    { ko: '판넬·접합부 코킹', desc: '판넬 접합부 누수 차단', img: 'assets/panel.png', link: 'https://blog.naver.com/goomiz/223948085801' },
+    { ko: '외벽 발수제', desc: '석재·콘크리트 표면 코팅', img: 'assets/repellent.png', link: 'https://blog.naver.com/goomiz/224231519405' },
+    { ko: '에어컨 배관 코킹', desc: '에어컨 배관 누수 처리', img: 'assets/ac.png', link: 'https://blog.naver.com/goomiz/224044811949' },
   ];
 
   const portfolio = [
-    { tag: '아파트', loc: '광명 H아파트', img: 'assets/apartment.png', year: '2024' },
-    { tag: '오피스', loc: '강남 S빌딩', img: 'assets/glass.png', year: '2024' },
-    { tag: '주상복합', loc: '송도 C단지', img: 'assets/repellent.png', year: '2023' },
-    { tag: '상가', loc: '부천 R상가', img: 'assets/panel.png', year: '2024' },
+    { tag: '펜션', loc: 'H 펜션', img: 'assets/Hpension.jpg' },
+    { tag: '석재 건물', loc: '석재 건물', img: 'assets/StoneBuilding.jpg' },
+    { tag: '상가', loc: '경기 C 빌딩', img: 'assets/gyunggiCsangga.jpg' },
+    { tag: '아파트', loc: '서울 R 단지', img: 'assets/SeoulRdange.jpg' },
   ];
 
   const HomePage = () => (
@@ -113,11 +113,34 @@ const MobileANavy = () => {
       </div>
 
       {/* HERO IMAGE */}
-      <div style={{ height: 220, backgroundImage: `url('assets/apartment.png')`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
+      <div style={{ height: 220, backgroundImage: `url('assets/glass.png')`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(9,27,45,0.15) 0%, rgba(9,27,45,0) 50%, rgba(9,27,45,0.75) 100%)' }} />
         <div style={{ position: 'absolute', bottom: 14, left: 18, right: 18, display: 'flex', justifyContent: 'space-between', color: '#fff', fontSize: 12, fontWeight: 600, letterSpacing: '0.05em', textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}>
           <span>실제 시공 현장</span>
           <span>경기 광명시</span>
+        </div>
+      </div>
+
+      {/* VIDEO SHOWCASE */}
+      <div style={{ padding: '24px 20px 8px', background: C.paper }}>
+        <div style={{ fontSize: 13, color: C.gold, fontWeight: 800, letterSpacing: '0.1em', marginBottom: 8 }}>— 현장 영상</div>
+        <h3 style={{ fontSize: 22, fontWeight: 800, color: C.navyDeep, margin: '0 0 16px', letterSpacing: '-0.03em' }}>
+          현장에서 직접 보여드립니다.
+        </h3>
+        <div style={{ display: 'grid', gap: 12 }}>
+          {['assets/video1.mp4', 'assets/video2.mp4'].map((src, i) => (
+            <div key={i} style={{ position: 'relative', borderRadius: 8, overflow: 'hidden', background: C.navyDeep, aspectRatio: '16 / 9' }}>
+              <video
+                src={src}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
+          ))}
         </div>
       </div>
 
@@ -146,14 +169,15 @@ const MobileANavy = () => {
         </h2>
         <div style={{ display: 'grid', gap: 12 }}>
           {services.map((s, i) => (
-            <div key={i} onClick={() => setTab('services')} style={{ background: '#fff', border: `1px solid ${C.line}`, borderRadius: 10, padding: 16, display: 'flex', gap: 14, alignItems: 'center', cursor: 'pointer', minHeight: 88 }}>
+            <a key={i} href={s.link} target="_blank" rel="noopener noreferrer" style={{ background: '#fff', border: `1px solid ${C.line}`, borderRadius: 10, padding: 16, display: 'flex', gap: 14, alignItems: 'center', cursor: 'pointer', minHeight: 88, textDecoration: 'none' }}>
               <div style={{ width: 72, height: 72, flexShrink: 0, borderRadius: 6, backgroundImage: `url('${s.img}')`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontSize: 17, fontWeight: 800, color: C.navyDeep, marginBottom: 4, letterSpacing: '-0.02em' }}>{s.ko}</div>
                 <div style={{ fontSize: 14, color: C.muted, lineHeight: 1.5 }}>{s.desc}</div>
+                <div style={{ fontSize: 12, color: C.gold, fontWeight: 700, marginTop: 4, letterSpacing: '0.05em' }}>실제 사례 보기 →</div>
               </div>
               <span style={{ color: C.gold, fontSize: 22, fontWeight: 700 }}>›</span>
-            </div>
+            </a>
           ))}
         </div>
       </div>
@@ -193,16 +217,12 @@ const MobileANavy = () => {
         </div>
         <div style={{ display: 'grid', gap: 14 }}>
           {portfolio.map((c, i) => (
-            <div key={i} style={{ background: '#fff', border: `1px solid ${C.line}`, borderRadius: 10, overflow: 'hidden' }}>
-              <div style={{ height: 180, backgroundImage: `url('${c.img}')`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(9,27,45,0.2) 0%, transparent 50%)' }} />
-                <div style={{ position: 'absolute', top: 12, left: 12, padding: '5px 11px', background: C.gold, color: C.navyDeep, fontSize: 13, fontWeight: 800, borderRadius: 4 }}>{c.tag}</div>
+            <a key={i} href="https://m.blog.naver.com/goomiz?tab=1" target="_blank" rel="noopener noreferrer" style={{ background: '#fff', border: `1px solid ${C.line}`, borderRadius: 10, overflow: 'hidden', textDecoration: 'none', color: 'inherit', display: 'block' }}>
+              <div style={{ height: 200, backgroundImage: `url('${c.img}')`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', alignItems: 'flex-end', padding: 16 }}>
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(9,27,45,0) 35%, rgba(9,27,45,0.85) 100%)' }} />
+                <div style={{ position: 'relative', zIndex: 2, fontSize: 19, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', textShadow: '0 1px 6px rgba(0,0,0,0.4)' }}>{c.loc}</div>
               </div>
-              <div style={{ padding: '14px 16px' }}>
-                <div style={{ fontSize: 17, fontWeight: 800, color: C.navyDeep, marginBottom: 4, letterSpacing: '-0.02em' }}>{c.loc}</div>
-                <div style={{ fontSize: 14, color: C.muted, fontWeight: 600 }}>{c.year}</div>
-              </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>
@@ -229,13 +249,14 @@ const MobileANavy = () => {
       </div>
       <div style={{ padding: '20px', display: 'grid', gap: 16 }}>
         {services.map((s, i) => (
-          <div key={i} style={{ background: '#fff', border: `1px solid ${C.line}`, borderRadius: 10, overflow: 'hidden' }}>
+          <a key={i} href={s.link} target="_blank" rel="noopener noreferrer" style={{ background: '#fff', border: `1px solid ${C.line}`, borderRadius: 10, overflow: 'hidden', textDecoration: 'none', color: 'inherit', display: 'block' }}>
             <div style={{ height: 180, backgroundImage: `url('${s.img}')`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
             <div style={{ padding: 18 }}>
               <div style={{ fontSize: 20, fontWeight: 800, color: C.navyDeep, marginBottom: 8, letterSpacing: '-0.02em' }}>{s.ko}</div>
-              <div style={{ fontSize: 16, color: C.muted, lineHeight: 1.6 }}>{s.desc}</div>
+              <div style={{ fontSize: 16, color: C.muted, lineHeight: 1.6, marginBottom: 8 }}>{s.desc}</div>
+              <div style={{ fontSize: 14, color: C.gold, fontWeight: 800, letterSpacing: '0.05em' }}>실제 시공 사례 보기 →</div>
             </div>
-          </div>
+          </a>
         ))}
       </div>
       <div style={{ height: 130 }} />
@@ -247,23 +268,20 @@ const MobileANavy = () => {
       <div style={{ background: C.navyDeep, color: '#fff', padding: '28px 22px 24px' }}>
         <div style={{ fontSize: 14, color: C.gold, fontWeight: 800, letterSpacing: '0.1em', marginBottom: 8 }}>— 시공 사례</div>
         <h1 style={{ fontSize: 32, fontWeight: 800, margin: 0, letterSpacing: '-0.03em' }}>시공 사례</h1>
-        <p style={{ fontSize: 16, color: '#d8dfe8', margin: '10px 0 0' }}>누적 1,200건 이상</p>
+        <p style={{ fontSize: 16, color: '#d8dfe8', margin: '10px 0 16px' }}>누적 1,200건 이상</p>
+        <a href="https://m.blog.naver.com/goomiz?tab=1" target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '14px 0', background: C.gold, color: C.navyDeep, fontSize: 15, fontWeight: 800, borderRadius: 8, textAlign: 'center', textDecoration: 'none', letterSpacing: '-0.01em' }}>
+          블로그에서 전체 사례 보기 →
+        </a>
       </div>
       <div style={{ padding: '20px', display: 'grid', gap: 16 }}>
-        {portfolio.concat(portfolio).map((c, i) => (
-          <div key={i} style={{ background: '#fff', border: `1px solid ${C.line}`, borderRadius: 10, overflow: 'hidden' }}>
-            <div style={{ height: 220, backgroundImage: `url('${c.img}')`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' }}>
-              <div style={{ position: 'absolute', top: 14, left: 14, padding: '6px 12px', background: C.gold, color: C.navyDeep, fontSize: 14, fontWeight: 800, borderRadius: 4 }}>{c.tag}</div>
-              <div style={{ position: 'absolute', top: 14, right: 14, fontSize: 14, color: '#fff', fontWeight: 700, textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>{c.year}</div>
+        {portfolio.map((c, i) => (
+          <a key={i} href="https://m.blog.naver.com/goomiz?tab=1" target="_blank" rel="noopener noreferrer" style={{ background: '#fff', border: `1px solid ${C.line}`, borderRadius: 10, overflow: 'hidden', textDecoration: 'none', color: 'inherit', display: 'block' }}>
+            <div style={{ height: 240, backgroundImage: `url('${c.img}')`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', alignItems: 'flex-end', padding: 18 }}>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(9,27,45,0) 35%, rgba(9,27,45,0.85) 100%)' }} />
+              <div style={{ position: 'relative', zIndex: 2, fontSize: 22, fontWeight: 800, color: '#fff', letterSpacing: '-0.02em', textShadow: '0 1px 6px rgba(0,0,0,0.4)' }}>{c.loc}</div>
             </div>
-            <div style={{ padding: 16 }}>
-              <div style={{ fontSize: 18, fontWeight: 800, color: C.navyDeep, letterSpacing: '-0.02em' }}>{c.loc}</div>
-            </div>
-          </div>
+          </a>
         ))}
-        <a href="https://m.blog.naver.com/goomiz?tab=1" target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '18px 0', marginTop: 8, background: '#fff', border: `1.5px solid ${C.navyDeep}`, color: C.navyDeep, fontSize: 16, fontWeight: 800, borderRadius: 10, textAlign: 'center', textDecoration: 'none', letterSpacing: '-0.01em' }}>
-          블로그에서 더 보기 →
-        </a>
       </div>
       <div style={{ height: 130 }} />
     </div>
@@ -278,11 +296,11 @@ const MobileANavy = () => {
       <div style={{ padding: 22, display: 'grid', gap: 14 }}>
         {[
           { k: '대표', v: '이용우' },
-          { k: '사업자등록번호', v: '612-28-77927', copy: true },
+          { k: '사업자등록번호', v: '612-28-77927' },
           { k: '전화', v: '010-8018-0701', cta: 'tel:01080180701', copy: true },
           { k: '카카오톡', v: '@뽀송코킹', cta: `http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`, ctaTarget: '_blank' },
           { k: '이메일', v: 'lywgogo2@naver.com', cta: 'mailto:lywgogo2@naver.com', copy: true },
-          { k: '소재지', v: '경기 광명시 하안로 320', copy: true },
+          { k: '소재지', v: '경기 광명시 하안로 320' },
           { k: '운영시간', v: '월~토 09:00–19:00' },
           { k: '시공권역', v: '서울 · 경기 · 인천' },
         ].map((it, i) => (
@@ -351,7 +369,7 @@ const MobileANavy = () => {
   const TopBar = () => (
     <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 30, background: C.navyDeep, color: '#fff', paddingLeft: 18, paddingRight: 18, paddingTop: `calc(${SAFE_TOP} + 12px)`, paddingBottom: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.08)', minHeight: 56, boxShadow: '0 2px 12px rgba(9,27,45,0.18)' }}>
       <div onClick={() => setTab('home')} style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
-        <div style={{ width: 30, height: 30, background: C.gold, borderRadius: 5, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.navyDeep, fontWeight: 800, fontSize: 15 }}>BS</div>
+        <img src="assets/logo.jpg" alt="뽀송코킹 로고" style={{ width: 24, height: 36, objectFit: 'cover', borderRadius: 4, display: 'block' }} />
         <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em' }}>뽀송코킹</div>
       </div>
       <a href="tel:01080180701" style={{ fontSize: 14, color: C.gold, fontWeight: 700, padding: '6px 12px', border: `1px solid ${C.gold}`, borderRadius: 100, textDecoration: 'none' }}>📞 전화</a>

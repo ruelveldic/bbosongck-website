@@ -69,12 +69,12 @@ const VariantANavy = () => {
   };
 
   const services = [
-    { ko: '외벽 실리콘 코킹', en: 'Exterior Caulking', desc: '아파트·빌딩 외벽 실리콘 재시공으로 누수와 결로를 차단합니다.', spec: '내후성 실리콘 / 보증 2년', img: 'assets/apartment.png' },
-    { ko: '건물 누수 보수', en: 'Leak Repair', desc: '누수 원인 진단부터 부위별 정밀 보수까지 한 팀이 책임집니다.', spec: '현장 진단 무료', img: 'assets/crack.png' },
-    { ko: '창호·유리 코킹', en: 'Window Sealing', desc: '창호 주변 실링 재시공으로 단열·방음 성능을 회복합니다.', spec: '24시간 경화', img: 'assets/glass.png' },
-    { ko: '외벽 크랙 보수', en: 'Crack Repair', desc: '균열 폭에 맞춰 우레탄·실리콘으로 재밀폐 처리합니다.', spec: '구조 검토 포함', img: 'assets/crack.png' },
-    { ko: '판넬·접합부 코킹', en: 'Panel Joint', desc: '샌드위치 판넬·금속 외장재 접합부 누수 차단 시공.', spec: '내한성 자재', img: 'assets/panel.png' },
-    { ko: '외벽 발수제', en: 'Water Repellent', desc: '석재·콘크리트 외벽 표면 발수 코팅으로 수명을 연장합니다.', spec: '재시공 주기 7년', img: 'assets/repellent.png' },
+    { ko: '외벽 실리콘 코킹', en: 'Exterior Caulking', desc: '아파트·빌딩 외벽 실리콘 재시공으로 누수와 결로를 차단합니다.', spec: '내후성 실리콘 / 보증 2년', img: 'assets/apartment.png', link: 'https://blog.naver.com/goomiz/224001584150' },
+    { ko: '건물 누수 보수', en: 'Leak Repair', desc: '누수 원인 진단부터 부위별 정밀 보수까지 한 팀이 책임집니다.', spec: '현장 진단 무료', img: 'assets/repair.jpg', link: 'https://blog.naver.com/goomiz/224225801665' },
+    { ko: '창호·유리 코킹', en: 'Window Sealing', desc: '창호 주변 실링 재시공으로 단열·방음 성능을 회복합니다.', spec: '24시간 경화', img: 'assets/glass.png', link: 'https://blog.naver.com/goomiz/224079592605' },
+    { ko: '판넬·접합부 코킹', en: 'Panel Joint', desc: '샌드위치 판넬·금속 외장재 접합부 누수 차단 시공.', spec: '내한성 자재', img: 'assets/panel.png', link: 'https://blog.naver.com/goomiz/223948085801' },
+    { ko: '외벽 발수제', en: 'Water Repellent', desc: '석재·콘크리트 외벽 표면 발수 코팅으로 수명을 연장합니다.', spec: '재시공 주기 7년', img: 'assets/repellent.png', link: 'https://blog.naver.com/goomiz/224231519405' },
+    { ko: '에어컨 배관 코킹', en: 'AC Pipe Sealing', desc: '에어컨 배관 외벽 관통부 누수 차단 시공.', spec: '내후성 자재', img: 'assets/ac.png', link: 'https://blog.naver.com/goomiz/224044811949' },
   ];
 
   const process = [
@@ -86,12 +86,10 @@ const VariantANavy = () => {
   ];
 
   const portfolio = [
-    { tag: '아파트', loc: '경기 광명 H아파트', area: '24개동 / 12,400세대', year: '2024', img: 'assets/apartment.png' },
-    { tag: '오피스', loc: '서울 강남 S빌딩', area: '지상 18층 외벽 전면', year: '2024', img: 'assets/glass.png' },
-    { tag: '주상복합', loc: '인천 송도 C단지', area: '3개동 외벽 + 창호', year: '2023', img: 'assets/repellent.png' },
-    { tag: '상가', loc: '경기 부천 R상가', area: '판넬 접합부 누수 보수', year: '2024', img: 'assets/panel.png' },
-    { tag: '아파트', loc: '서울 양천 P아파트', area: '균열 보수 + 발수제', year: '2023', img: 'assets/crack.png' },
-    { tag: '학교', loc: '경기 안양 K초등학교', area: '본관 외벽 실링 재시공', year: '2024', img: 'assets/ac.png' },
+    { tag: '펜션', loc: 'H 펜션', area: '외벽 실링 + 누수 보수', img: 'assets/Hpension.jpg' },
+    { tag: '석재 건물', loc: '석재 건물', area: '석재 외벽 발수제 시공', img: 'assets/StoneBuilding.jpg' },
+    { tag: '상가', loc: '경기 C 빌딩', area: '외벽 코킹 + 판넬 접합부', img: 'assets/gyunggiCsangga.jpg' },
+    { tag: '아파트', loc: '서울 R 단지', area: '외벽 실링 재시공', img: 'assets/SeoulRdange.jpg' },
   ];
 
   const reviews = [
@@ -127,7 +125,7 @@ const VariantANavy = () => {
       {/* NAV */}
       <header style={{ position: 'sticky', top: 0, zIndex: 50, background: C.navy, color: '#fff', padding: '16px 56px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `1px solid ${C.line}`, boxShadow: '0 4px 16px rgba(9,27,45,0.15)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 38, height: 38, background: C.gold, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.navyDeep, fontWeight: 800, fontFamily: "'Space Grotesk',sans-serif", fontSize: 20 }}>B</div>
+          <img src="assets/logo.jpg" alt="뽀송코킹 로고" style={{ width: 28, height: 42, objectFit: 'cover', borderRadius: 4, display: 'block' }} />
           <div>
             <div style={{ fontWeight: 700, fontSize: 18, letterSpacing: '-0.02em' }}>뽀송코킹</div>
             <div style={{ fontSize: 11, color: C.goldSoft, fontFamily: "'Inter', sans-serif", letterSpacing: '0.1em', textTransform: 'uppercase' }}>Exterior Sealing Specialists</div>
@@ -192,10 +190,10 @@ const VariantANavy = () => {
           </div>
 
           {/* Hero visual: real site photo */}
-          <div style={{ position: 'relative', height: 560, border: `1px solid ${C.line}`, borderRadius: 8, overflow: 'hidden', backgroundImage: `url('assets/apartment.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <div style={{ position: 'relative', height: 560, border: `1px solid ${C.line}`, borderRadius: 8, overflow: 'hidden', backgroundImage: `url('assets/glass.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(9,27,45,0.35) 0%, rgba(9,27,45,0) 30%, rgba(9,27,45,0) 60%, rgba(9,27,45,0.85) 100%)' }} />
             <div style={{ position: 'absolute', top: 16, left: 16, right: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 11, color: '#fff', fontFamily: "'Space Grotesk',sans-serif", letterSpacing: '0.15em', textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}>
-              <span>FIG.01 — APARTMENT EXTERIOR CAULKING</span>
+              <span>FIG.01 — EXTERIOR SEALING ON-SITE</span>
               <span>GWANGMYEONG, KR</span>
             </div>
             {/* spec card overlay */}
@@ -224,6 +222,31 @@ const VariantANavy = () => {
               <div key={i} style={{ fontSize: 14, fontWeight: 700, color: '#7a7164', letterSpacing: '0.08em', fontFamily: "'Inter', sans-serif" }}>{b}</div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* VIDEO SHOWCASE */}
+      <section style={{ padding: '100px 56px', background: C.cream }}>
+        <div style={{ marginBottom: 40 }}>
+          <div style={{ fontSize: 12, color: C.gold, fontWeight: 700, letterSpacing: '0.18em', fontFamily: "'Inter',sans-serif", marginBottom: 16 }}>— ON-SITE</div>
+          <h2 style={{ fontSize: 36, fontWeight: 800, lineHeight: 1.2, margin: 0, letterSpacing: '-0.03em', color: C.navyDeep }}>
+            현장에서 보여드립니다.
+          </h2>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+          {['assets/video1.mp4', 'assets/video2.mp4'].map((src, i) => (
+            <div key={i} style={{ position: 'relative', borderRadius: 6, overflow: 'hidden', background: C.navyDeep, aspectRatio: '16 / 9' }}>
+              <video
+                src={src}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              />
+            </div>
+          ))}
         </div>
       </section>
 
@@ -302,8 +325,13 @@ const VariantANavy = () => {
             <div style={{ fontSize: 11, color: C.gold, fontFamily: "'Inter',sans-serif", letterSpacing: '0.18em', fontWeight: 600, marginBottom: 14 }}>{services[activeService].en.toUpperCase()}</div>
             <h3 style={{ fontSize: 36, fontWeight: 800, margin: '0 0 24px', letterSpacing: '-0.02em' }}>{services[activeService].ko}</h3>
             <p style={{ fontSize: 17, lineHeight: 1.8, color: '#cfd8e3', maxWidth: 540, margin: '0 0 32px' }}>{services[activeService].desc}</p>
-            <div style={{ display: 'inline-block', padding: '10px 16px', background: 'rgba(245,165,36,0.12)', border: `1px solid ${C.gold}`, borderRadius: 4, fontSize: 13, color: C.goldSoft, fontWeight: 500 }}>
-              {services[activeService].spec}
+            <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+              <div style={{ display: 'inline-block', padding: '10px 16px', background: 'rgba(245,165,36,0.12)', border: `1px solid ${C.gold}`, borderRadius: 4, fontSize: 13, color: C.goldSoft, fontWeight: 500 }}>
+                {services[activeService].spec}
+              </div>
+              <a href={services[activeService].link} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 16px', background: C.gold, color: C.navyDeep, borderRadius: 4, fontSize: 13, fontWeight: 700, textDecoration: 'none' }}>
+                실제 시공 사례 보기 →
+              </a>
             </div>
             {/* visual: real photo */}
             <div style={{ marginTop: 40, height: 280, borderRadius: 4, backgroundImage: `url('${services[activeService].img}')`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', overflow: 'hidden' }}>
@@ -347,21 +375,15 @@ const VariantANavy = () => {
           </div>
           <a href="https://m.blog.naver.com/goomiz?tab=1" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, color: C.navy, fontWeight: 600, borderBottom: `2px solid ${C.gold}`, paddingBottom: 4, cursor: 'pointer', textDecoration: 'none' }}>블로그에서 전체 사례 보기 →</a>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
           {portfolio.map((c, i) => (
-            <div key={i} style={{ border: '1px solid #e6e1d6', borderRadius: 6, overflow: 'hidden', background: '#fff', cursor: 'pointer', transition: 'transform 0.2s' }}>
-              <div style={{ height: 240, backgroundImage: `url('${c.img}')`, backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative', display: 'flex', alignItems: 'flex-end', padding: 20 }}>
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(9,27,45,0.4) 0%, rgba(9,27,45,0) 40%, rgba(9,27,45,0.65) 100%)' }} />
-                <div style={{ position: 'relative', zIndex: 2, color: '#fff' }}>
-                  <div style={{ display: 'inline-block', padding: '4px 10px', background: C.gold, color: C.navyDeep, fontSize: 11, fontWeight: 700, borderRadius: 2, marginBottom: 8 }}>{c.tag}</div>
-                </div>
-                <div style={{ position: 'absolute', top: 16, right: 16, fontSize: 11, color: '#fff', opacity: 0.9, fontFamily: "'Space Grotesk',sans-serif", letterSpacing: '0.1em', textShadow: '0 1px 4px rgba(0,0,0,0.5)', zIndex: 2 }}>{c.year}</div>
-              </div>
+            <a key={i} href="https://m.blog.naver.com/goomiz?tab=1" target="_blank" rel="noopener noreferrer" style={{ border: '1px solid #e6e1d6', borderRadius: 6, overflow: 'hidden', background: '#fff', cursor: 'pointer', transition: 'transform 0.2s', textDecoration: 'none', color: 'inherit', display: 'block' }}>
+              <div style={{ height: 240, backgroundImage: `url('${c.img}')`, backgroundSize: 'cover', backgroundPosition: 'center' }} />
               <div style={{ padding: 24 }}>
                 <div style={{ fontSize: 18, fontWeight: 700, color: C.navyDeep, marginBottom: 8, letterSpacing: '-0.02em' }}>{c.loc}</div>
                 <div style={{ fontSize: 14, color: '#7a7164' }}>{c.area}</div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </section>
@@ -446,7 +468,7 @@ const VariantANavy = () => {
                 { l: '대표 전화', v: '010-8018-0701', sub: '월~토 09:00 – 19:00', cta: 'tel:01080180701', copy: true },
                 { l: '카카오톡', v: '뽀송코킹', sub: '메시지 남겨주세요', cta: `http://pf.kakao.com/${window.KAKAO_CHANNEL_ID}/chat`, external: true },
                 { l: '이메일', v: 'lywgogo2@naver.com', sub: '도면·사진 첨부 가능', cta: 'mailto:lywgogo2@naver.com', copy: true },
-                { l: '본사', v: '경기 광명시 하안로 320', sub: '일정 확인 후 방문', copy: true },
+                { l: '본사', v: '경기 광명시 하안로 320', sub: '일정 확인 후 방문' },
               ].map((c, i) => (
                 <div key={i} style={{ display: 'grid', gridTemplateColumns: '120px 1fr auto', gap: 24, alignItems: 'center', paddingBottom: 20, borderBottom: i < 3 ? `1px solid ${C.line}` : 'none' }}>
                   <div style={{ fontSize: 12, color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: "'Inter',sans-serif", paddingTop: 4, alignSelf: 'flex-start' }}>{c.l}</div>
@@ -550,7 +572,7 @@ const VariantANavy = () => {
         <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1fr', gap: 40, marginBottom: 40, paddingBottom: 40, borderBottom: `1px solid ${C.line}` }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
-              <div style={{ width: 32, height: 32, background: C.gold, borderRadius: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.navyDeep, fontWeight: 800, fontFamily: "'Space Grotesk',sans-serif" }}>B</div>
+              <img src="assets/logo.jpg" alt="뽀송코킹 로고" style={{ width: 24, height: 36, objectFit: 'cover', borderRadius: 4, display: 'block' }} />
               <div style={{ color: '#fff', fontSize: 16, fontWeight: 700 }}>뽀송코킹</div>
             </div>
             <div style={{ fontSize: 13, lineHeight: 1.8 }}>
